@@ -1,0 +1,373 @@
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="UTF-8">
+  <title>BucketList</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font-->
+  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' >
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" media="all" href="css/template.css" >
+  <link rel="stylesheet" type="text/css" media="all" href="css/magnific-popup.css" >
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
+
+
+<!-- Javscripts -->
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="js/jquery.magnific-popup.js"></script>
+  <script type="text/javascript" src="js/scripts.js"></script>
+
+
+  <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css"/>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
+
+</head>
+
+
+<body>
+
+<!-- Top Header / Header Bar -->
+<div id="home" class="boxed-view">
+    <?php include("header.html");?>
+
+<section class="box">
+<div class="container">
+
+
+
+<div class="viewlist" align = 'center'>
+<p>
+    <button type ="button" onclick="toggleView('reserve')">Reservations</button>
+    <button type ="button" onclick="toggleView('cust')">Customers</button>
+    <button type ="button" onclick="toggleView('room')">Rooms</button>
+	<button type ="button" onclick="toggleView('hotel')">Hotel Information</button>
+	<button onClick="window.location='index.php'">Log Out</button>
+</p>
+</div>
+
+<?php
+$success = True; //keep track of errors so it redirects the page only if there are no errors
+$query1 = 'SELECT * FROM customer c, zipcodecitystate z WHERE c.zipcode = z.zipcode ORDER BY name';
+$conn = oci_connect("ora_k7c1b", "a20470150", "ug"); // enter ugrad credentials here
+$query2 = 'SELECT room.*, bedroom_type_name FROM room LEFT OUTER JOIN bedroom on room.roomno = bedroom.roomno';
+$query3 = 'SELECT r.*, room.type FROM reservation r, room where r.room_no = room.roomno';
+$query4 = "SELECT floorno, sum(capacity), count(*) FROM room group by floorno";
+$query9 = "SELECT * from checkout";
+if (!$conn){
+	echo "cannot connect";
+	$e = OCI_Error(); // For OCILogon errors pass no handle
+	echo htmlentities($e['message']);
+}
+
+function execute($query){
+	global $conn;
+	$stid = oci_parse($conn, $query);
+	if (!$stid) {
+		$e = oci_error($conn);
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+	$r = oci_execute($stid);
+	if (!$r) {
+		$e = oci_error($stid);
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+		
+	while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+		print "<tr>\n";
+		foreach ($row as $item) {
+			print "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;") . "</td>\n";
+		}
+		print "</tr>\n";
+	}
+	print "</tbody>";
+	print "</table>\n";
+
+	oci_free_statement($stid);	
+}
+?>
+
+<div class = "alltable" id = "reserve">
+<?php
+
+if (array_key_exists('delete', $_POST)) {
+	$conf_no =  $_POST['deleteval'];
+	$query7 = "delete from reservation where conf_no= " . $conf_no;
+	$statement = oci_parse($conn, $query7);
+	$r = OCIExecute($statement);
+	if (!$r) {
+		  echo "<br>Cannot execute the following command<br>";
+		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
+		  echo htmlentities($e['message']);
+		  echo "<br>";
+		  $success = False;
+		}
+	oci_free_statement($statement);
+}
+
+if (array_key_exists('checkin', $_POST)) {
+	$conf_no =  $_POST['checkinval'];
+	$query8 = "update reservation set checkin_timestamp = systimestamp where conf_no= " . $conf_no;
+	$statement = oci_parse($conn, $query8);
+	$r = OCIExecute($statement);
+	if (!$r) {
+		  echo "<br>Cannot execute the following command<br>";
+		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
+		  echo htmlentities($e['message']);
+		  echo "<br>";
+		  $success = False;
+		}
+	oci_free_statement($statement);
+}
+
+if (array_key_exists('checkout', $_POST)) {
+	$conf_no =  $_POST['conf'];
+	$extra =  $_POST['extra'];
+	$damage =  $_POST['damage'];
+	
+	$query10 = "insert into checkout values(" . $conf_no . "," . $extra . ", systimestamp," . $damage . ")";
+	$statement = oci_parse($conn, $query10);
+	$r = OCIExecute($statement);
+	if (!$r) {
+		  echo "<br>Cannot execute the following command<br>";
+		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
+		  echo htmlentities($e['message']);
+		  echo "<br>";
+		  $success = False;
+		}
+	oci_free_statement($statement);
+}
+
+if($conn){
+	print "<h3 align = 'center'>Reservations</h3>";
+	print "<table id = 'employ4' class = 'display' cellspacing ='0' >\n";
+	print "<thead>\n";
+	print "<tr>\n";
+	print "<th>Confirmation</th><th>Room No.</th><th>Card Name</th><th>Card Type</th><th>Card No.</th><th>Card Expiry</th><th>Date Booked</th><th>Time Checked In</th><th>Phone</th><th>Start Date</th><th>End Date</th><th>Type</th><th>Checkin</th><th>Delete</th>\n";
+	print "</tr>\n";
+	print "<tbody>";
+	global $conn;
+	$stid = oci_parse($conn, $query3);
+	if (!$stid) {
+		$e = oci_error($conn);
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+	$r = oci_execute($stid);
+	if (!$r) {
+		$e = oci_error($stid);
+		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	}
+		
+	while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+		print "<tr>\n";
+		foreach ($row as $item) {
+			print "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;") . "</td>\n";
+		}
+		print "<td><form action='employee.php' method='POST'><input type='hidden' name='checkinval' value='".$row["CONF_NO"]."'/><input type='submit' name='checkin' value='Checkin' /></form></td>\n";
+		print "<td><form action='employee.php' method='POST'><input type='hidden' name='deleteval' value='".$row["CONF_NO"]."'/><input type='submit' name='delete' value='Delete' /></form></td>\n";
+		print "</tr>\n";
+	}
+	print "</tbody>";
+	print "</table>\n";
+
+	oci_free_statement($stid);	
+}
+?>
+
+<form method="POST" action="employee.php">
+   <p><input type="text" placeholder="Confirmation No." name="conf"><input type="number" placeholder="Extra Costs" name="extra"><input type="number" placeholder="Damage Costs" name="damage">
+<input type="submit" value="Checkout" name="checkout"></p>
+</form>
+
+<?php
+	print "<br>";
+	print "<h3 align = 'center'>Checked Out Customers</h3>";
+	print "<table id = 'employ5' class = 'display' cellspacing ='0' >\n";
+	print "<thead>\n";
+	print "<tr>\n";
+	print "<th>Confirmation Number</th><th>Extra Cost</th><th>Checked Out</th><th>Damage Cost</th>\n";
+	print "</tr>\n";
+	print "<tbody>";
+	execute($query9);
+?>
+</div>
+
+
+<div class = "alltable" id = "cust">
+<?php
+
+if ($conn){
+	print "<h3 align = 'center'>Customers</h3>";
+	print "<table id = 'employ2' class = 'display' cellspacing ='0' >\n";
+	print "<thead>\n";
+	print "<tr>\n";
+	print "<th>Phone</th><th>Name</th><th>Age</th><th>Street</th><th>Zipcode</th><th>City</th><th>Province</th>\n";
+	print "</tr>\n";
+	print "<tbody>";
+	execute($query1);
+}
+?>
+<br>
+<button id = "importantcust" name = "importantcust" onClick = "showMaxMin('importantcust')">Show/Hide Important Customers</button>
+<br>Customers who are currently reserving all types of rooms (bedroom, conference room and ballroom)</br>
+
+<div id="resultbestcust"><b></b></div>
+
+</div>
+
+
+
+<div class = "alltable" id = "room">
+
+<?php
+	print "<h3 align = 'center'>Rooms</h3>";
+	print "<table id = 'employ3' class = 'display' cellspacing ='0' >\n";
+	print "<thead>\n";
+	print "<tr>\n";
+	print "<th>Room Number</th><th>Floor</th><th>Smoking</th><th>Pets</th><th>Availability</th><th>Capacity</th><th>Type</th><th>Class</th>\n";
+	print "</tr>\n";
+	print "<tbody>";
+	execute($query2);
+?>
+
+</div>
+
+
+
+<div class = "alltable" id = "hotel">
+
+<?php
+	print "<h3 align = 'center'>Hotel Information</h3>";
+	print "<table id = 'employ1' class = 'display' cellspacing ='0' >\n";
+	print "<thead>\n";
+	print "<tr>\n";
+	print "<th>Floor No.</th><th>Capacity</th><th># of Rooms</th>\n";
+	print "</tr>\n";
+	print "<tbody>";
+	execute($query4);
+?>
+
+
+
+Floor(s) with 
+
+<select name = "availrooms" onchange ="showMaxMin(this.value)">
+  <option class="placeholder" selected disabled value="">Select..</option>
+  <option value="max">Maximum</option>
+  <option value="min">Minimum</option>
+</select>
+available capacity:
+
+
+<br>
+<div id="resultavail"><b></b></div>
+
+</div>
+
+<?php
+
+if($conn){
+	OCILogoff($conn);
+}
+?>
+ <script>
+  $(function(){
+    $('#admin1').dataTable({
+		order: []
+	});
+	$('#admin2').dataTable({
+		order: []
+	});
+	$('#admin3').dataTable({
+		order: [],
+		"columnDefs":[
+		{
+			"targets": [4],
+			"visible": false,
+			"searchable": false
+		}
+		]
+	});
+	$('#admin4').dataTable({
+		order: []	
+	});
+	
+	$('#admin5').dataTable({
+		order: []	
+	});
+  })
+  
+	function toggleView(id){
+		$('.alltable').hide();
+		$('#' +id).show();
+	}
+  $('.alltable').hide();
+  $('#reserve').show();
+  $('#resultbestcust').hide();
+  
+  
+  $('#importantcust').click(function(){
+	  $('#resultbestcust').toggle();
+  })
+  </script>
+  
+  
+ <script>
+function showMaxMin(v) {
+	var result = "";
+	
+	if (v == "max" || v == "min"){
+		result = "resultavail";
+	}
+	if (v == "importantcust"){
+		result = "resultbestcust";
+	}
+    if (v == "") {
+        document.getElementById(result).innerHTML = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById(result).innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("GET","empajax.php?q="+v,true);
+        xmlhttp.send();
+    }
+}
+</script>
+
+<style>
+select > .placeholder {
+  display: none;
+}
+
+/*div.alltable {
+  width: 700px ;
+  margin: 0 auto;
+}*/
+</style>
+
+</div>
+
+
+<?php include("footer.html");?>
+
+</body>
+</html>

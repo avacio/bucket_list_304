@@ -1,0 +1,88 @@
+
+    <header class="main-header clearfix stick-me sticking">
+        <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-8">
+                        <ul class="inline-list uppercase font-small header-bar">
+                            <li><i class="fa fa-phone"></i> phone </li>
+                            <li><i class="fa fa-envelope"></i> email </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6 col-sm-4">
+                        <ul class="inline-list to-right header-bar">
+                          <li><a href="user.php"><i class="fa fa-user"></i>USER</a></li>                           
+                          <li><a class="popup-with-form" href="#login-form">
+                              <span class="hidden-xs">ADMIN</span>
+                              </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+     
+
+<!-- Admin Login Panel -->
+<div id="login-form" class="mfp-hide white-popup-block">
+<div class="signin">
+  <div class="signin_title">
+    <h2>Admin Login</h2>
+  </div>
+    <div class="signin_form">
+      <form id="adminlogin" method="post" action = "admin.php">
+      <div class="signin_fields">
+
+        <div class="field">
+          <label for="fieldUser" class="label">Admin Username</label>
+          <input type="text" id="admin_username" name = "admin_username" class="input"  />
+        </div
+>        <div class="field">
+          <label for="fieldPassword" class="label">Password</label>
+          <input type="password" id="admin_password" name="admin_password" class="input" />
+        </div>
+        <div class="signin_footer" style="text-align:center;">
+          <button class="btn button-sm green hover-dark-green soft-corners" type="submit">Login</button>
+        </div>
+      </div>
+    </form>
+     </div>
+  </div>
+</div>
+
+
+<!-- Main Navigation -->
+
+            <div class="nav-bar sticky-bar grey">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-8"><b>
+                            <h1 class="font-2x font-100"> <a href="index.php">BucketList</a></h1></b>
+
+                        </div>
+                        <div class="col-md-8 col-xs-4">
+                            <nav class="main-nav clearfix">
+                                <ul class="clean-list to-right">
+                                    <!-- 
+                                    <li><a href="404.html">Accomodations</a></li>
+-->
+<!--                        CHANGE PHP FILE?-->
+                                     <li><a href="food.php">Food</a></li>
+                                     <li><a href="event.php">Event</a></li>
+                                    <li><a href="activity.php">Activity</a></li>
+                                    <li><a href="explore.php">Explore</a></li>
+                                    
+                                    <!--
+<li><a href="request.php">Request Change</a></li>
+
+                                    <li><a href="#contact">Contact</a></li>
+-->
+                                </ul>
+                            </nav>
+
+                            <a href="#" class="mobile-switch to-right">
+                                <i class="fa fa--reorder font-2x text-dark hover-text-grey"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>

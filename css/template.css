@@ -145,7 +145,7 @@ html body .hover-blue:hover {
 
 html body .dark-blue,
 html body .hover-dark-blue:hover {
-  background: #1a2b44;
+  background: #cccccc;
 }
 
 html body .black,
@@ -234,6 +234,12 @@ html body .text-dark-blue,
 html body .hover-text-dark-blue:hover,
 html body .before-dark-blue:before {
   color: #1a2b44;
+}
+
+html body .text-silver,
+html body .hover-text-silver:hover,
+html body .before-silver:before {
+  color: #cccccc;
 }
 
 html body .text-aquablue,
@@ -689,8 +695,6 @@ body .no-shadow {
   left: 100%;
 }
 
-
-
 .main-footer {
   position: relative;
 }
@@ -699,13 +703,11 @@ body .no-shadow {
 /* Boxes
    ========================================================================== */
 
-
 #home.show-content, .no-js #home {
   filter: alpha(opacity=100);
   opacity: 1;
   visibility: visible; 
 }
-
 
 /*Box models*/
 
@@ -717,8 +719,6 @@ body > div > section > div.row {
 body > div > section > div.row > .column_container {
   padding: 0;
 }
-
-
 
 .box {
   padding: 69px 0;
@@ -734,21 +734,18 @@ body > div > section > div.row > .column_container {
   margin-bottom: 88px;
 }
 
-
-
-
 .container {
   width: 100%;
 }
 
-/* Booking form */
+/* Filter form */
 
-.booking-form {
+.filter-form {
   padding: 2em 1em;
 
 }
 
-.booking-form form {
+.filter-form form {
   margin: 0 ;
 
 }
@@ -758,12 +755,12 @@ form div {
 
 }
 
-.booking-form form div {
+.filter-form form div {
   padding: 0 9px !important;
 
 }
 
-.booking-form form div > input {
+.filter-form form div > input {
   padding-right: 2em;
 }
 

@@ -51,14 +51,14 @@
     <button type ="button" onclick="toggleView('cust')">Customers</button>
     <button type ="button" onclick="toggleView('room')">Rooms</button>
 	<button type ="button" onclick="toggleView('hotel')">Hotel Information</button>
-	<button onClick="window.location='index.php'">Log Out </button>
+	<button onClick="window.location='index.php'">Log Out</button>
 </p>
 </div>
 
 <?php
 $success = True; //keep track of errors so it redirects the page only if there are no errors
-$conn = oci_connect("ora_n9b9", "a40798126", "ug");
 $query1 = 'SELECT * FROM customer c, zipcodecitystate z WHERE c.zipcode = z.zipcode ORDER BY name';
+$conn = oci_connect("ora_k7c1b", "a20470150", "ug"); // enter ugrad credentials here
 $query2 = 'SELECT room.*, bedroom_type_name FROM room LEFT OUTER JOIN bedroom on room.roomno = bedroom.roomno';
 $query3 = 'SELECT r.*, room.type FROM reservation r, room where r.room_no = room.roomno';
 $query4 = "SELECT floorno, sum(capacity), count(*) FROM room group by floorno";

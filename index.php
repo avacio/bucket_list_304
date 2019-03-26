@@ -56,7 +56,8 @@
 		</section>
 
 
-
+<!--    example search filter-->
+<!--
 				<div class="row">
 					<div class="col-md-12">
 						<div class="black booking-form">
@@ -80,8 +81,7 @@
       							<div class = "col-md-2 col-sm-6">
       								<label for="room-type">Room Type</label>
       								<select id="room-type" name="room-type" required>
-      										<!--<option value="all" selected hidden>Room Type</option> -->
-									        <option value="all">All</option>
+      								        <option value="all">All</option>
 									        <option value="bedroom">Bedroom</option>
 									        <option value="ballroom">Ballroom</option>
 									        <option value="conferenceroom">Conference</option>
@@ -91,7 +91,6 @@
       							<div class = "col-md-2 col-sm-6">
       								  <label for="room-type">Pet Allowability</label>
 								      <select id="pet" name="pet">
-								      	<!--<option value="all" selected hidden>Allow Pets</option> -->
 								        <option value="all">All</option>
 								        <option value="Y">Yes</option>
 								        <option value="N">No</option>
@@ -101,7 +100,6 @@
       							<div class = "col-md-2 col-sm-6">
       							  <label for="room-type">Smoke Allowability</label>
 							      <select id="smoke" name="smoke">
-							      	<!--<option value="all" selected hidden>Allow Smoking</option> -->
 							        <option value="all">All</option>
 							        <option value="Y">Yes</option>
 							        <option value="N">No</option>
@@ -112,10 +110,13 @@
 									<br>
 									<button type="submit" class="button-md green hover-dark-green soft-corners">Search</button>
 								</div>
+
+main content -->
 							</form>
 						</div>
 					</div>
 				</div>
+
 
 <?php include("footer.html");?>
 

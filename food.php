@@ -224,15 +224,14 @@ order by i.items DESC NULLS LAST
 ");
     } else if (strcmp($sortBy, 'recentlyAdded') == 0) {
 $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
-FROM bucket_list_item b, bucket_list_food f, food_restrictions fr,
-item_request_evaluates ire, item_request_requests irr
+FROM bucket_list_item b, bucket_list_food f, food_restrictions fr, items i
 WHERE b.bl_item_id = f.food_item_id
 AND fr.restriction_id = f.restrictions
 AND f.restrictions LIKE '${restrictions}'
 AND b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND ire.is_approved = 1 AND ire.request_id = irr.request_id AND irr.bl_item_id = b.bl_item_id
-ORDER BY ire.evaluated_date DESC
+AND b.bl_item_id = i.bl_item_id
+order by i.modifiedlast DESC
         ");
     } else {
      $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value

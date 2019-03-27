@@ -24,14 +24,18 @@ TODO:
 - admin.php
 - user.php
 - event.php, activity.php, food.php
-    - food: look into multiple select dietary restrictions, not sure if possible with PHP
-    - price range: enforce min < max
-    - fix sort by recenty added
 - explore.php (not yet created)
     - search through all bl types? or list them or display most popular
 - request.php (not yet created)
 - header.html
     - "surprise me" query, "search" query only by name
+
+ICEBOX:
+- add picture links to bucketlist items
+- price range: enforce min < max
+- food: look into multiple select dietary restrictions, input type="checkbox" but would need to change database schema
+- same for activity: days of week scheduled
+
     
 OTHER NOTES: 
 - 404.html may not be necessary

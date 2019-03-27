@@ -58,7 +58,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="black filter-form">
-                    <form id="filterform" method="get" action="activity.php" class="row no-padding">
+                    <form id="filterform" method="get" action="event.php" class="row no-padding">
                         <div class="col-md-2 col-sm-6">
 									<label for ="start-date">Start Date</label>
       								<i class="fa fa-calendar infield"></i>
@@ -91,7 +91,7 @@
 
 
                         <div class="col-md-2 col-sm-4">
-                            <label for="activity-item">Sort by</label>
+                            <label for="event-item">Sort by</label>
                             <select id="sortBy" name="sortBy">
                                 <option value="popularity">Popularity</option>
                                 <option value="endingSoon">Ending Soon</option>
@@ -106,7 +106,7 @@
 
                         <div class="col-md-12 col-sm-4" style="text-align:center;">
                             <br>
-                            <form method="POST" action="activity.php">
+                            <form method="POST" action="event.php">
                                 <button type="submit" name="search" class="button-md orange hover-dark-orange soft-corners">Filter</button>
                             </form>
                         </div>
@@ -124,6 +124,7 @@ $db_conn = OCILogon("ora_k7c1b", "a20470150",
 
 function printTable($resultFromSQL, $namesOfColumnsArray)
 {
+//    echo "<br>RESULTS:<br>";
     echo "<table>";
     echo "<tr>";
     // iterate through the array and print the string contents
@@ -171,7 +172,7 @@ if (strcmp($sortBy, 'priceAsc') == 0) {
 } else if (strcmp($sortBy, 'priceDesc') == 0) {
 	$sortBy = "b.price DESC";
 } else if (strcmp($sortBy, 'endingSoon') == 0) {
-	$sortBy = "a.activity_end ASC";
+	$sortBy = "e.event_end ASC";
 } else if (strcmp($sortBy, 'pointsAsc') == 0) {
 	$sortBy = "b.points_value ASC";
 } else if (strcmp($sortBy, 'pointsDesc') == 0) {
@@ -184,7 +185,7 @@ echo "<script>console.log( 'sortBy changed to: ' + '${sortBy}')</script>";
 // Connect Oracle...
 if ($db_conn) {
     echo "<script>console.log( 'Connected to Oracle.')</script>";
-    $columnNames = array("Name", "Start Date", "End Date", "Weekdays Scheduled", "Price ($)", "Location", "Points");
+    $columnNames = array("Name", "Start Date", "End Date", "Price ($)", "Location", "Points");
     
     if (array_key_exists('search', $_GET)) {
     echo "<script>console.log( 'return search.')</script>";
@@ -197,42 +198,43 @@ if ($db_conn) {
 //from bucket_list_contains
 //group by bl_item_id");
 //        OCICommit($db_conn);
-        $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
-FROM bucket_list_activity a, bucket_list_item b LEFT OUTER JOIN itemCount i
+        $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.location, b.points_value
+FROM bucket_list_event e, bucket_list_item b LEFT OUTER JOIN itemCount i
 ON b.bl_item_id = i.bl_item_id
-WHERE b.bl_item_id = a.activity_item_id
+WHERE b.bl_item_id = e.event_item_id
 AND b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
+AND '${startDate}' <= e.event_start
+AND e.event_end <= '${endDate}'
 order by i.items DESC NULLS LAST
 ");
     } else if (strcmp($sortBy, 'recentlyAdded') == 0) {
-$result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
-FROM bucket_list_item b, bucket_list_activity a, items i
-WHERE b.bl_item_id = a.activity_item_id
+$result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.location, b.points_value
+FROM bucket_list_item b, bucket_list_event e, items i
+WHERE b.bl_item_id = e.event_item_id
 AND b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
+AND '${startDate}' <= e.event_start
+AND e.event_end <= '${endDate}'
+AND b.bl_item_id = i.bl_item_id
 order by i.modifiedlast DESC
         ");
     } else {
-     $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
-FROM bucket_list_item b, bucket_list_activity a
-WHERE b.bl_item_id = a.activity_item_id
+     $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.location, b.points_value
+FROM bucket_list_item b, bucket_list_event e
+WHERE b.bl_item_id = e.event_item_id
 AND b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
+AND '${startDate}' <= e.event_start
+AND e.event_end <= '${endDate}'
 ORDER BY ${sortBy}
         ");
     }} else
         {
         echo "<script>console.log('Show all.')</script>";
-        $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
-FROM bucket_list_item b, bucket_list_activity a
-Where b.bl_item_id = a.activity_item_id
+        $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.location, b.points_value
+FROM bucket_list_item b, bucket_list_event e
+Where b.bl_item_id = e.event_item_id
         ");
     }
     printTable($result, $columnNames);

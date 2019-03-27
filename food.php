@@ -58,17 +58,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="black filter-form">
-                    <form id="filterform"
-                        method="get"
-                          action="food.php" class="row no-padding">
-                        <div class="col-md-3 col-sm-4">
+                    <form id="filterform" method="get" action="food.php" class="row no-padding">
+                        <div class="col-md-2 col-sm-4">
                             <label for="priceMax">Price Max</label>
                             <i class="fa fa-usd"></i>
                             <input type="number" value="100000" name="priceMax" id="priceMax" min="0" required />
                             <!--                                    max="500"-->
                         </div>
 
-                        <div class="col-md-3 col-sm-4">
+                        <div class="col-md-2 col-sm-4">
                             <label for="priceMin">Price Min</label>
                             <i class="fa fa-usd"></i>
                             <input type="number" value="0" name="priceMin" id="priceMin" min="0" max=$_GET['priceMax']; required />
@@ -76,16 +74,21 @@
                         </div>
 
                         <div class="col-md-3 col-sm-4">
+                            <label for="location">Location</label>
+                            <i class="fa fa-location-arrow"></i>
+                            <input type="text" value="Any" name="location" id="location" />
+                        </div>
+
+                        <div class="col-md-2 col-sm-4">
                             <label for="food-item">Dietary Restrictions</label>
                             <select id="restrictions" name="restrictions">
                                 <option value="none">None</option>
                                 <option value="vegan">Vegan</option>
                                 <option value="veggie">Vegetarian</option>
-                          <option value="glutenFree">Gluten-Free</option> 
-                                          <option value="nutFree">Nut-Free</option>
+                                <option value="glutenFree">Gluten-Free</option>
+                                <option value="nutFree">Nut-Free</option>
                                 <option value="dairyfree">Dairy-Free</option>
-                                          <option value="kosher">Kosher</option>
-                                        
+                                <option value="kosher">Kosher</option>
                             </select>
                         </div>
 
@@ -98,6 +101,7 @@
                                 <option value="priceDesc">Price: High -> Low</option>
                                 <option value="pointsAsc">Points: Low -> High</option>
                                 <option value="pointsDesc">Points: High -> Low</option>
+                                <option value="abc">Alphabetical</option>
                             </select>
                         </div>
 
@@ -111,36 +115,7 @@
                 </div>
             </div>
         </div>
-<br><br>
-<!--
-        <html>
-        <style>
-            table {
-                width: 20%;
-                border: 1px solid black;
-            }
-
-            th {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: .7em;
-                background: #666;
-                color: #FFF;
-                padding: 2px 6px;
-                border-collapse: separate;
-                border: 1px solid #000;
-            }
-
-            td {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: .7em;
-                border: 1px solid #DDD;
-                color: black;
-            }
-
-        </style>
-        </html>
--->
-
+        <br><br>
         <?php
 
 require('parse-sql.php'); 
@@ -177,13 +152,19 @@ function printTable($resultFromSQL, $namesOfColumnsArray)
 
 $priceMax = $_GET['priceMax'];
 $priceMin = $_GET['priceMin'];
+$location = $_GET['location'];
 $restrictions = $_GET['restrictions'];
 $sortBy = $_GET['sortBy'];
-        
-echo "<script>console.log( 'priceMax: ' + '${priceMax}'
-+ ', priceMin: ' + '${priceMin}' + ', restrictions: ' + '${restrictions}'
-+ ', sortBy: ' + '${sortBy}')</script>";
 
+if (strcmp($location, 'Any') == 0) {
+	$location = '%';
+} else { $location = "%${location}%"; }
+
+echo "<script>console.log( 'priceMax: ' + '${priceMax}'
++ ', priceMin: ' + '${priceMin}' + ', location: ' + '${location}'
++ ', restrictions: ' + '${restrictions}'
++ ', sortBy: ' + '${sortBy}')</script>";
+        
 if (strcmp($restrictions, 'none') == 0) {
 	$restrictions = '%';
 } else if (strcmp($restrictions, 'veggie') == 0) {
@@ -199,44 +180,72 @@ if (strcmp($restrictions, 'none') == 0) {
 }
                 
 if (strcmp($sortBy, 'priceAsc') == 0) {
-	$sortBy = 'b.price ASC';
+	$sortBy = "b.price ASC";
 } else if (strcmp($sortBy, 'priceDesc') == 0) {
-	$sortBy = 'b.price DESC';
+	$sortBy = "b.price DESC";
 } else if (strcmp($sortBy, 'pointsAsc') == 0) {
-	$sortBy = 'b.points_value ASC';
+	$sortBy = "b.points_value ASC";
 } else if (strcmp($sortBy, 'pointsDesc') == 0) {
-	$sortBy = 'b.points_value DESC';
-} else if (strcmp($sortBy, 'recentlyAdded') == 0) {
-	$sortBy = 'b.name'; // TODO STUB
-} else if (strcmp($sortBy, 'popularity') == 0) {
-	$sortBy = 'b.name'; // TODO STUB
+	$sortBy = "b.points_value DESC";
+//} else if (strcmp($sortBy, 'recentlyAdded') == 0) {
+//	$sortBy = "b.name"; // TODO STUB
+//} else if (strcmp($sortBy, 'popularity') == 0) {
+//    $sortBy = "b.name"; // TODO STUB
+} else if (strcmp($sortBy, 'abc') == 0) {
+	$sortBy = "b.name";
 }
 echo "<script>console.log( 'sortBy changed to: ' + '${sortBy}')</script>";
 
 // Connect Oracle...
 if ($db_conn) {
     echo "<script>console.log( 'Connected to Oracle.')</script>";
-    $columnNames = array("Name", "Price", "Location", "Restrictions", "Points");
-
-//	if (array_key_exists('search', $_POST)) {
-//    	if (array_key_exists('search', $_GET)) {
-//        $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
-//FROM bucket_list_item b, bucket_list_food f, food_restrictions fr
-//Where b.bl_item_id = f.food_item_id
-//AND fr.restriction_id = f.restrictions
-//ORDER by '${sortBy}'
-//        ");
+    $columnNames = array("Name", "Price ($)", "Location", "Restrictions", "Points");
     
+    if (array_key_exists('search', $_GET)) {
+    echo "<script>console.log( 'return search.')</script>";
+
+    if (strcmp($sortBy, 'popularity') == 0) {
+        //UPDATE ITEMCOUNT?
+//        executePlainSQL("drop table itemCount");
+//        executePlainSQL("create view itemCount as
+//select bl_item_id, COUNT(*) as items
+//from bucket_list_contains
+//group by bl_item_id");
+//        OCICommit($db_conn);
+        $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
+FROM bucket_list_food f, food_restrictions fr, bucket_list_item b LEFT OUTER JOIN itemCount i
+ON b.bl_item_id = i.bl_item_id
+WHERE b.bl_item_id = f.food_item_id
+AND fr.restriction_id = f.restrictions
+AND f.restrictions LIKE '${restrictions}'
+AND b.location LIKE '${location}'
+AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
+order by i.items DESC NULLS LAST
+");
+    } else if (strcmp($sortBy, 'recentlyAdded') == 0) {
+$result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
+FROM bucket_list_item b, bucket_list_food f, food_restrictions fr,
+item_request_evaluates ire, item_request_requests irr
+WHERE b.bl_item_id = f.food_item_id
+AND fr.restriction_id = f.restrictions
+AND f.restrictions LIKE '${restrictions}'
+AND b.location LIKE '${location}'
+AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
+AND ire.is_approved = 1 AND ire.request_id = irr.request_id AND irr.bl_item_id = b.bl_item_id
+ORDER BY ire.evaluated_date DESC
+        ");
+    } else {
      $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
 FROM bucket_list_item b, bucket_list_food f, food_restrictions fr
 WHERE b.bl_item_id = f.food_item_id
 AND fr.restriction_id = f.restrictions
 AND f.restrictions LIKE '${restrictions}'
+AND b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-ORDER by '${sortBy}'
+ORDER BY ${sortBy}
         ");
-
-    if (!array_key_exists('search', $_GET)) {
+    }} else
+        {
         echo "<script>console.log('Show all.')</script>";
         $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
 FROM bucket_list_item b, bucket_list_food f, food_restrictions fr
@@ -244,25 +253,8 @@ Where b.bl_item_id = f.food_item_id
 AND fr.restriction_id = f.restrictions
         ");
     }
-           printTable($result, $columnNames);
-//		}
-////
-//	if ($_POST && $success) {
-//        echo "<script>console.log('Post Success.')</script>";
-//		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
-//		header("location: food.php");
-//	} else {
-//        echo "<script>console.log('Default: show all food items')</script>";
-//		// Displays all food items
-//		$result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
-//FROM bucket_list_item b, bucket_list_food f, food_restrictions fr
-//Where b.bl_item_id = f.food_item_id
-//AND fr.restriction_id = f.restrictions
-//        ");
-//		/*printResult($result);*/
-//           /* next two lines from Raghav replace previous line */
-//           printTable($result, $columnNames);
-//	}
+    printTable($result, $columnNames);
+
 	OCILogoff($db_conn);
 } else {
 	echo "cannot connect";

@@ -26,9 +26,7 @@ TODO:
 - event.php, activity.php, food.php
     - food: look into multiple select dietary restrictions, not sure if possible with PHP
     - price range: enforce min < max
-    - add location to search (input type field or select option?)
-    - SORT BY POPULARITY AND RECENTLY ADDED
-        - write SQL in the php (stubs right now)
+    - fix sort by recenty added
 - explore.php (not yet created)
     - search through all bl types? or list them or display most popular
 - request.php (not yet created)

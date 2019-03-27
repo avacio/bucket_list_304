@@ -44,7 +44,7 @@
 					<div class="col-md-8 col-md-offset-2">
 						<div class="slider-helper">
 							<ul class="clean-list">
-								<li class="text-white text-center">
+								<li class="text-yellow text-center">
 									<h1 class="font-3x font-40">Want to go on an adventure?</h1>
 									<p class="darken font-100 welcome-mess">Let's try something new.</p>
 								</li>
@@ -56,67 +56,104 @@
 		</section>
 
 
-<!--    example search filter-->
-<!--
+ <section class="box">
+			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="black booking-form">
-              <form id="checkinform" method="post" action = "search.php" class="row no-padding">
-                <input type="hidden" name="sub" value="book" />
-								<div class="col-md-2 col-sm-6">
-									<label for ="start-date">Arrival Date</label>
-      								<i class="fa fa-calendar infield"></i>
-      								<input type="text" name="start-date" id="start-date" class="form-control" placeholder="Check In" required />
-								</div>
-								<div class="col-md-2 col-sm-6">
-									<label for ="end-date">Departure Date</label>
-      								<i class="fa fa-calendar infield"></i>
-      								<input type="text" name="end-date" id="end-date" placeholder="Check Out" required />
-								</div>
-								<div class = "col-md-2 col-sm-6">
-									<label for="numGuests">Guests</label>
-     								<i class="fa fa-user infield"></i>
-      								<input type="number" name="numGuests" id="numGuests" min="1" max="500" required/>
-      							</div>
-      							<div class = "col-md-2 col-sm-6">
-      								<label for="room-type">Room Type</label>
-      								<select id="room-type" name="room-type" required>
-      								        <option value="all">All</option>
-									        <option value="bedroom">Bedroom</option>
-									        <option value="ballroom">Ballroom</option>
-									        <option value="conferenceroom">Conference</option>
-      								</select>
-    							</div>
-      							
-      							<div class = "col-md-2 col-sm-6">
-      								  <label for="room-type">Pet Allowability</label>
-								      <select id="pet" name="pet">
-								        <option value="all">All</option>
-								        <option value="Y">Yes</option>
-								        <option value="N">No</option>
-								      </select> 
-      							</div>
-
-      							<div class = "col-md-2 col-sm-6">
-      							  <label for="room-type">Smoke Allowability</label>
-							      <select id="smoke" name="smoke">
-							        <option value="all">All</option>
-							        <option value="Y">Yes</option>
-							        <option value="N">No</option>
-							      </select>      								
-      							</div>
-
-								<div class = "col-md-12 col-sm-6" style="text-align:center;">
-									<br>
-									<button type="submit" class="button-md green hover-dark-green soft-corners">Search</button>
-								</div>
-
-main content -->
-							</form>
+						<div class="text-white text-center fancy-heading">
+							<h1 class="font-700">Featured</h1>
+              <hr class="text-white size-30 center-me">
 						</div>
 					</div>
-				</div>
+				</div> 
+     </div></section></div>
+	
 
+        <?php
+    require('parse-sql.php'); 
+$success = True;
+$db_conn = OCILogon("ora_k7c1b", "a20470150", 
+                    "dbhost.ugrad.cs.ubc.ca:1522/ug");
+
+function printTable($resultFromSQL, $namesOfColumnsArray)
+{
+    echo "<table>";
+    echo "<tr>";
+    // iterate through the array and print the string contents
+    foreach ($namesOfColumnsArray as $name) {
+        echo "<th>$name</th>";
+    }
+    echo "</tr>";
+
+    while ($row = OCI_Fetch_Array($resultFromSQL, OCI_BOTH)) {
+        echo "<tr>";
+        $string = "";
+
+        // iterates through the results returned from SQL query and
+        // creates the contents of the table
+        for ($i = 0; $i < sizeof($namesOfColumnsArray); $i++) {
+            $string .= "<td>" . $row["$i"] . "</td>";
+        }
+        echo $string;
+        echo "</tr>";
+    }
+    echo "</table>";
+}
+
+// Connect Oracle...
+if ($db_conn) {
+    echo "<script>console.log( 'Connected to Oracle.')</script>";
+    $columnNames = array("Name", "Price ($)", "Description", "Link", "Location", "Points");
+}
+?>
+    
+          <div class="text-yellow text-center fancy-heading">
+							<h3 class="font-600">Be a trendsetter.</h3>
+                <p>These items are not in any bucketlists.</p>
+						</div>
+        <?php
+if ($db_conn) {
+
+$result = executePlainSQL("SELECT bli.name, bli.price, bli.description, bli.link, bli.location, bli.points_value
+from bucket_list_item bli
+where NOT EXISTS 
+(select *
+from user_bucket_list_items ubli
+where bli.bl_item_id = ubli.bl_item_id)
+");
+    
+    printTable($result, $columnNames);}
+ ?>   
+    <br><br>
+              <div class="text-yellow text-center fancy-heading">
+							<h3 class="font-600">Tried and tested.</h3>
+                <p>These items are the most popular.</p>
+						</div>
+
+        <?php
+    if ($db_conn) {
+//     echo "<br>Tried and tested:<br>";
+$result = executePlainSQL("select bli.name, bli.price, bli.description, bli.link, bli.location, bli.points_value
+from bucket_list_item bli
+where bli.bl_item_id IN 
+(select bl_item_id
+from bucket_list_contains
+group by bl_item_id
+having count(*) = 
+(select max(items) 
+from itemCount))
+");
+    printTable($result, $columnNames);
+
+	OCILogoff($db_conn);
+} else {
+	echo "cannot connect";
+	$e = OCI_Error(); // For OCILogon errors pass no handle
+	echo htmlentities($e['message']);
+}
+?>
+
+    
 
 <?php include("footer.html");?>
 

@@ -1,5 +1,8 @@
 # bucket_list_304
 
+LIVE LINK:
+[http://www.ugrad.cs.ubc.ca/~k7c1b/bucketlist]
+
 ## Setup
 ### In php local servers
 To test the site locally, PHP local servers are a good option.
@@ -20,15 +23,14 @@ The following command is to execute the init SQL when you are in the project dir
 ## DEV NOTES
 TODO:
 - index.php
-    - the home page, needs to be updated with "featured", "recommended" section
+    - "recommended" section, for logged in users? or just put in the user page?
 - admin.php
 - user.php
-- event.php, activity.php, food.php
-- explore.php (not yet created)
-    - search through all bl types? or list them or display most popular
 - request.php (not yet created)
 - header.html
-    - "surprise me" query, "search" query only by name
+    - "search" query only by name
+    - fix "surprise me" query
+- click to view more details about particular item? need to make a php page for this?
 
 ICEBOX:
 - add picture links to bucketlist items

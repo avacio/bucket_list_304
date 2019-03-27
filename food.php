@@ -36,7 +36,7 @@
             <div class="slider-mask"></div>
             <div class="simple-slider">
                 <ul class="clean-list">
-                    <li><a href="#"><img src="images/header/1.jpg" /></a></li>
+                    <li><a href="#"><img src="images/header/2.jpg" /></a></li>
                 </ul>
             </div>
             <div class="container custom-controls">
@@ -45,8 +45,8 @@
                         <div class="slider-helper">
                             <ul class="clean-list">
                                 <li class="text-white text-center">
-                                    <h1 class="font-3x font-40">Want to go on an adventure?</h1>
-                                    <p class="darken font-100 welcome-mess">Let's try something new.</p>
+                                    <h1 class="font-3x font-40">Stay hungry, stay foolish.</h1>
+                                    <p class="darken font-100 welcome-mess">Food is not rational. Food is culture, habit, craving and identity. -- Jonathan Safran Foer</p>
                                 </li>
                             </ul>
                         </div>

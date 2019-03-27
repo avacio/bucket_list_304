@@ -212,6 +212,12 @@ html body .before-white:before {
   color: #ffffff;
 }
 
+html body .text-yellow,
+html body .hover-text-yellow:hover,
+html body .before-yellow:before {
+  color: #FFC114;
+}
+
 html body .text-grey,
 html body .hover-text-grey:hover,
 html body .before-grey:before {
@@ -311,7 +317,8 @@ h1 {
 h3 {
   font-size: 1.953em;
   font-weight: bold;
-  color: #4fabbc;
+/*  color: ##FFC114;*/
+    color:#BA8D0F;
 }
 
 h4 {

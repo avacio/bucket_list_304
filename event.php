@@ -36,7 +36,7 @@
             <div class="slider-mask"></div>
             <div class="simple-slider">
                 <ul class="clean-list">
-                    <li><a href="#"><img src="images/header/1.jpg" /></a></li>
+                    <li><a href="#"><img src="images/header/3.jpg" /></a></li>
                 </ul>
             </div>
             <div class="container custom-controls">
@@ -45,8 +45,16 @@
                         <div class="slider-helper">
                             <ul class="clean-list">
                                 <li class="text-white text-center">
-                                    <h1 class="font-3x font-40">Want to go on an adventure?</h1>
-                                    <p class="darken font-100 welcome-mess">Let's try something new.</p>
+                                    <h1 class="font-3x font-40">
+                                        Embrace the now.
+                                    </h1>
+                                   <p class="darken font-100 welcome-mess">
+<!--The emotional brain responds to an event more quickly than the thinking brain. -- Daniel Goleman-->
+                                       <!--The meeting of two personalities is like the contact of two chemical substances: if there is any reaction, both are transformed. -- Carl Jung-->
+                                       Why not try it all, if you only remember it once? -- The Strokes
+
+</p>
+                                    
                                 </li>
                             </ul>
                         </div>

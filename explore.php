@@ -36,7 +36,7 @@
             <div class="slider-mask"></div>
             <div class="simple-slider">
                 <ul class="clean-list">
-                    <li><a href="#"><img src="images/header/4.jpg" /></a></li>
+                    <li><a href="#"><img src="images/header/5.jpg" /></a></li>
                 </ul>
             </div>
             <div class="container custom-controls">
@@ -45,14 +45,8 @@
                         <div class="slider-helper">
                             <ul class="clean-list">
                                 <li class="text-white text-center">
-                                    <h1 class="font-3x font-40">
-<!--                                        All growth depends upon activity.-->
-                                        Find your new normal.
-                                    </h1>
-                                    <p class="darken font-100 welcome-mess">
-<!--                                        We have a normal. As you move outside of your comfort zone, what was once the unknown and frightening becomes your new normal. -- Robin S. Sharma-->
-                                        I've been absolutely terrified every moment of my life - and I've never let it keep me from doing a single thing I wanted to do. -- Georgia O'Keeffe
-                                    </p>
+                                    <h1 class="font-3x font-40">Explore.</h1>
+<!--                                    <p class="darken font-100 welcome-mess">Food is not rational. Food is culture, habit, craving and identity. -- Jonathan Safran Foer</p>-->
                                 </li>
                             </ul>
                         </div>
@@ -64,43 +58,31 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="black filter-form">
-                    <form id="filterform" method="get" action="activity.php" class="row no-padding">
-                        <div class="col-md-2 col-sm-6">
-									<label for ="start-date">Start Date</label>
-      								<i class="fa fa-calendar infield"></i>
-      								<input type="text" name="start-date" id="start-date" class="form-control" placeholder="DD-MMM-YY" required />
-								</div>
-								<div class="col-md-2 col-sm-6">
-									<label for ="end-date">End Date</label>
-      								<i class="fa fa-calendar infield"></i>
-      								<input type="text" name="end-date" id="end-date" placeholder="DD-MMM-YY"/>
-								</div>
-                        <div class="col-md-2 col-sm-4">
+                    <form id="filterform" method="get" action="explore.php" class="row no-padding">
+                        <div class="col-md-3 col-sm-4">
                             <label for="priceMax">Price Max</label>
                             <i class="fa fa-usd"></i>
                             <input type="number" value="100000" name="priceMax" id="priceMax" min="0" required />
                             <!--                                    max="500"-->
                         </div>
 
-                        <div class="col-md-2 col-sm-4">
+                        <div class="col-md-3 col-sm-4">
                             <label for="priceMin">Price Min</label>
                             <i class="fa fa-usd"></i>
                             <input type="number" value="0" name="priceMin" id="priceMin" min="0" max=$_GET['priceMax']; required />
                             <!--                                    max="500"-->
                         </div>
 
-                        <div class="col-md-2 col-sm-4">
+                        <div class="col-md-3 col-sm-4">
                             <label for="location">Location</label>
                             <i class="fa fa-location-arrow"></i>
                             <input type="text" value="Any" name="location" id="location" />
                         </div>
 
-
-                        <div class="col-md-2 col-sm-4">
-                            <label for="activity-item">Sort by</label>
+                        <div class="col-md-3 col-sm-4">
+                            <label for="explore-item">Sort by</label>
                             <select id="sortBy" name="sortBy">
                                 <option value="popularity">Popularity</option>
-                                <option value="endingSoon">Ending Soon</option>
                                 <option value="recentlyAdded">Recently Added</option>
                                 <option value="priceAsc">Price: Low -> High</option>
                                 <option value="priceDesc">Price: High -> Low</option>
@@ -112,7 +94,7 @@
 
                         <div class="col-md-12 col-sm-4" style="text-align:center;">
                             <br>
-                            <form method="POST" action="activity.php">
+                            <form method="POST" action="explore.php">
                                 <button type="submit" name="search" class="button-md orange hover-dark-orange soft-corners">Filter</button>
                             </form>
                         </div>
@@ -130,6 +112,7 @@ $db_conn = OCILogon("ora_k7c1b", "a20470150",
 
 function printTable($resultFromSQL, $namesOfColumnsArray)
 {
+//    echo "<br>RESULTS:<br>";
     echo "<table>";
     echo "<tr>";
     // iterate through the array and print the string contents
@@ -141,6 +124,9 @@ function printTable($resultFromSQL, $namesOfColumnsArray)
     while ($row = OCI_Fetch_Array($resultFromSQL, OCI_BOTH)) {
         echo "<tr>";
         $string = "";
+
+        // iterates through the results returned from SQL query and
+        // creates the contents of the table
         for ($i = 0; $i < sizeof($namesOfColumnsArray); $i++) {
             $string .= "<td>" . $row["$i"] . "</td>";
         }
@@ -150,8 +136,7 @@ function printTable($resultFromSQL, $namesOfColumnsArray)
     echo "</table>";
 }
 
-$startDate = $_GET['start-date'];
-$endDate = $_GET['end-date'];
+
 $priceMax = $_GET['priceMax'];
 $priceMin = $_GET['priceMin'];
 $location = $_GET['location'];
@@ -160,24 +145,11 @@ $sortBy = $_GET['sortBy'];
 if (strcmp($location, 'Any') == 0) {
 	$location = '%';
 } else { $location = "%${location}%"; }
-
-if (strcmp($endDate, '') == 0) {
-    echo "<script>console.log( 'empty endDate')</script>";
-	$endDate = '31-Dec-3000';
-}
-
-echo "<script>console.log( 'priceMax: ' + '${priceMax}'
-+ ', priceMin: ' + '${priceMin}' + ', location: ' + '${location}'
-+ ', startDate: ' + '${startDate}'
-+ ', endDate: ' + '${endDate}'
-+ ', sortBy: ' + '${sortBy}')</script>";
-                
+        
 if (strcmp($sortBy, 'priceAsc') == 0) {
 	$sortBy = "b.price ASC";
 } else if (strcmp($sortBy, 'priceDesc') == 0) {
 	$sortBy = "b.price DESC";
-} else if (strcmp($sortBy, 'endingSoon') == 0) {
-	$sortBy = "a.activity_end ASC";
 } else if (strcmp($sortBy, 'pointsAsc') == 0) {
 	$sortBy = "b.points_value ASC";
 } else if (strcmp($sortBy, 'pointsDesc') == 0) {
@@ -190,7 +162,7 @@ echo "<script>console.log( 'sortBy changed to: ' + '${sortBy}')</script>";
 // Connect Oracle...
 if ($db_conn) {
     echo "<script>console.log( 'Connected to Oracle.')</script>";
-    $columnNames = array("Name", "Start Date", "End Date", "Weekdays Scheduled", "Price ($)", "Location", "Points");
+    $columnNames = array("Name", "Price ($)", "Description", "Location", "Points");
     
     if (array_key_exists('search', $_GET)) {
     echo "<script>console.log( 'return search.')</script>";
@@ -203,42 +175,33 @@ if ($db_conn) {
 //from bucket_list_contains
 //group by bl_item_id");
 //        OCICommit($db_conn);
-        $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
-FROM bucket_list_activity a, bucket_list_item b LEFT OUTER JOIN itemCount i
+        $result = executePlainSQL("select b.name, b.price, b.description, b.location, b.points_value
+FROM bucket_list_item b LEFT OUTER JOIN itemCount i
 ON b.bl_item_id = i.bl_item_id
-WHERE b.bl_item_id = a.activity_item_id
-AND b.location LIKE '${location}'
+WHERE b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
 order by i.items DESC NULLS LAST
 ");
     } else if (strcmp($sortBy, 'recentlyAdded') == 0) {
-$result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
-FROM bucket_list_item b, bucket_list_activity a, items i
-WHERE b.bl_item_id = a.activity_item_id
-AND b.location LIKE '${location}'
+$result = executePlainSQL("select b.name, b.price, b.description, b.location, b.points_value
+FROM bucket_list_item b, items i
+WHERE b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
+AND b.bl_item_id = i.bl_item_id
 order by i.modifiedlast DESC
         ");
     } else {
-     $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
-FROM bucket_list_item b, bucket_list_activity a
-WHERE b.bl_item_id = a.activity_item_id
-AND b.location LIKE '${location}'
+     $result = executePlainSQL("select b.name, b.price, b.description, b.location, b.points_value
+FROM bucket_list_item b
+WHERE b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
 ORDER BY ${sortBy}
         ");
     }} else
         {
         echo "<script>console.log('Show all.')</script>";
-        $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
-FROM bucket_list_item b, bucket_list_activity a
-Where b.bl_item_id = a.activity_item_id
+        $result = executePlainSQL("select b.name, b.price, b.description, b.location, b.points_value
+FROM bucket_list_item b
         ");
     }
     printTable($result, $columnNames);

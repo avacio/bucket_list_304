@@ -1,3 +1,4 @@
+<?php
 function executePlainSQL($cmdstr) 
 { 
 	global $db_conn, $success;
@@ -60,3 +61,4 @@ function executeBoundSQL($cmdstr, $list)
 	}
 
 }
+?>

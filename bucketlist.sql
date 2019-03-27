@@ -16,6 +16,9 @@ drop table item_request_evaluates cascade constraints;
 drop table goal_sets cascade constraints;
 drop table user_has_bucket_list cascade constraints;
 drop table bucket_list_contains cascade constraints;
+drop table food_restrictions cascade constraints;
+drop table bucket_list_type cascade constraints;
+drop table evaluation cascade constraints;
 
 -- Update the changes onto the SQL DB
 commit;
@@ -25,7 +28,7 @@ commit;
 
 create table bucket_list_item (
 	bl_item_id int,
-	price decimal,
+	link varchar(500),
     name varchar(50) not null,
 	description varchar(500) not null,
 	location varchar(100) not null,
@@ -36,11 +39,20 @@ create table bucket_list_item (
 grant select on bucket_list_item to public;
 
 
+create table food_restrictions (
+    restriction_id int,
+    restriction varchar(100),
+    primary key (restriction_id)
+);
+
+grant select on food_restrictions to public;
+
+
 create table bucket_list_food (
 	food_item_id int,
-	restrictions varchar(100),
-	nutrition varchar(100),
+	restrictions int,
 	primary key (food_item_id),
+    foreign key (restrictions) references food_restrictions (restriction_id),
     foreign key (food_item_id) references bucket_list_item (bl_item_id) on delete cascade
 );
 
@@ -103,18 +115,37 @@ create table is_friend_of (
 grant select on is_friend_of to public;
 
 
+create table bucket_list_type (
+    bl_type_id int,
+    bl_type varchar(100),
+    primary key (bl_type_id)
+);
+
+grant select on bucket_list_type to public;
+
+
+create table evaluation (
+    evaluated_id int,
+    evaluation_desc varchar(100),
+    primary key (evaluated_id)
+);
+
+grant select on evaluation to public;
+
+
 create table item_request_requests (
 	request_id int,
 	bl_item_id int,
-	type varchar(10) not null,
+	bl_type_id int not null,
 	name varchar(50) not null,
 	description varchar(500) not null,
-	contact_info varchar(50),
 	requested_date date not null,
 	consumer_username varchar(20) not null,
-	is_evaluated int not null,
+	is_evaluated int default (0),
 	primary key (request_id),
+    foreign key (bl_type_id) references bucket_list_type,
 	foreign key (bl_item_id) references bucket_list_item,
+    foreign key (is_evaluated) references evaluation (evaluated_id),
 	foreign key (consumer_username) references consumer
 );
 
@@ -141,6 +172,7 @@ create table item_request_evaluates (
 	is_approved int not null,
 	admin_username varchar(20) not null,
 	primary key (request_id),
+    foreign key (is_approved) references evaluation (evaluated_id),
 	foreign key (request_id) references item_request_requests,
 	foreign key (admin_username) references admin
 );
@@ -188,49 +220,72 @@ commit;
 -- Insert data into bucket_list_item
 
 insert into bucket_list_item
-values (1, 0, 'Doll Town', 'Stroll through this small village where you''ll find the dolls easily outnumber the people.', 'Nagoro, Japan', 100);
+values (1, 'https://news.nationalgeographic.com/2017/10/japan-dolls-population-artist-nagoro-spd/', 'Doll Town', 'Stroll through this small village where you''ll find the dolls easily outnumber the people.', 'Nagoro, Japan', 100);
 
 insert into bucket_list_item
-values (2, 5.99, 'Cheese Bubble Tea', 'A unique bubble tea made with cheese.', 'Richmond, BC', 10);
+values (2, 'http://www.happy-lemon.com/en/drink/drink.php', 'Cheese Bubble Tea', 'A unique bubble tea made with cheese.', 'Richmond, BC', 10);
 
 insert into bucket_list_item
-values (3, 30, 'CatFe', 'A cafe where you can play with cats while you drink coffee. If you like the cat you can even apply to adopt them!', 'Vancouver, Canada', 100);
+values (3, 'www.catfe.ca', 'CatFe', 'A cafe where you can play with cats while you drink coffee. If you like the cat you can even apply to adopt them!', 'Vancouver, Canada', 100);
 
 insert into bucket_list_item
-values (4, 50, 'Hello Kitty Cafe', 'A unique Hello Kitty themed cafe. Everything from the dining experience to the dishes are Hello Kitty themed.', 'Bangkok, Thailand', 60);
+values (4, 'http://hellokittyhousebangkok.com/', 'Hello Kitty House', 'A unique Hello Kitty themed cafe. Everything from the dining experience to the dishes are Hello Kitty themed.', 'Bangkok, Thailand', 60);
 
 insert into bucket_list_item
-values (5, 50, 'Super Scary Labyrinth of Fear', 'At 900m long, this is the longest haunted house in the world! Come visit the ghosts at this mental institution located in the Fuji-Q theme park.', 'Fuji-Q Highland Theme Park, Japan', 1000);
+values (5, 'https://www.fujiq.jp/en/attraction/senritsu.html', 'Super Scary Labyrinth of Fear', 'At 900m long, this is the longest haunted house in the world! Come visit the ghosts at this mental institution located in the Fuji-Q theme park.', 'Fuji-Q Highland Theme Park, Japan', 1000);
 
 insert into bucket_list_item
-values (6, 20, 'Crater of Diamonds State Park',  'Try your luck at finding diamonds in this state park. You get to keep the diamonds you find.', 'Pike County, Arkansas', 80);
+values (6, 'https://www.arkansasstateparks.com/parks/crater-diamonds-state-park', 'Crater of Diamonds State Park',  'Try your luck at finding diamonds in this state park. You get to keep the diamonds you find.', 'Pike County, Arkansas', 80);
 
 insert into bucket_list_item
-values (7, 45, 'Dining in the Dark', 'Immerse your senses with this pitch-black dining experience.', 'Kitsilano, Vancouver', 100);
+values (7, 'http://www.darktable.ca/about.html', 'Dining in the Dark', 'Immerse your senses with this pitch-black dining experience.', 'Kitsilano, Vancouver', 100);
 
 insert into bucket_list_item
-values (8, 30, 'Ramen Museum', 'Take a tour at this museum dedicated to the history and different regional styles of ramen.', 'Osaka, Japan', 25);
+values (8, 'http://www.raumen.co.jp/english/', 'Ramen Museum', 'Take a tour at this museum dedicated to the history and different regional styles of ramen.', 'Osaka, Japan', 25);
 
 insert into bucket_list_item
-values (9, 75, 'Skywalk at Macau Tower', 'Walk around the edge of Macau Tower in this thrilling adventure.', 'Macau, China', 500);
+values (9, 'https://www.macautower.com.mo/tower-adventure/tower-adventure/skywalk/', 'Skywalk at Macau Tower', 'Walk around the edge of Macau Tower in this thrilling adventure.', 'Macau, China', 500);
 
 insert into bucket_list_item
-values (10, 54.99, 'Paris catacombs', 'Visit the underground ossuaries of Paris ... if you dare ...', 'Paris, France', 1000);
+values (10, 'http://catacombes.paris.fr/en', 'Paris catacombs', 'Visit the underground ossuaries of Paris ... if you dare ...', 'Paris, France', 1000);
 
 insert into bucket_list_item
-values (11, 124.99, 'Dinner in the Sky', 'Dine 160+ feet off the ground with this unique dining experience.', 'Worldwide', 500);
+values (11, 'https://dinnerintheskycanada.com/', 'Dinner in the Sky', 'Dine 160+ feet off the ground with this unique dining experience.', 'Canada', 500);
 
 insert into bucket_list_item
-values (12, 17.75, 'Trickeye Museum', 'Trick your friends with this museum dedicated to 2D and 3D illusions.', 'Seoul, South Korea', 50);
+values (12, 'http://trickeye.com/', 'Trickeye Museum', 'Trick your friends with this museum dedicated to 2D and 3D illusions.', 'Seoul, South Korea', 50);
 
 insert into bucket_list_item
-values (13, 439.99, 'XLine Dubai', 'Zipline across the city of Dubai in the worlds longest urban zipline.', 'Dubai', 250);
+values (13, 'http://xdubai.com/xline/', 'XLine Dubai', 'Zipline across the city of Dubai in the worlds longest urban zipline.', 'Dubai', 250);
 
 insert into bucket_list_item
-values (14, 95, 'Sandboarding', 'Can''t swim? Hate water? Try sand surfing in the great Sahara desert instead!', 'Morocco', 100);
+values (14, 'http://www.mouhoutours.com/morocco-sandboarding-merzouga-experience/', 'Sandboarding', 'Can''t swim? Hate water? Try sand surfing in the great Sahara desert instead!', 'Morocco', 100);
 
 insert into bucket_list_item
-values (15, 20.99, 'Hotel de Glace', 'Visit North America''s only ice hotel. Made entirely of snow and ice it''s the coolest way to spend the night!', 'Quebec, Canada', 50);
+values (15, 'https://www.valcartier.com/en/accommodations/ice-hotel/?langue=fr', 'Hotel de Glace', 'Visit North America''s only ice hotel. Made entirely of snow and ice it''s the coolest way to spend the night!', 'Quebec, Canada', 50);
+
+commit;
+
+
+-- Insert data into food_restrictions
+
+insert into food_restrictions
+values (0, 'Vegetarian');
+
+insert into food_restrictions
+values (1, 'Vegan');
+
+insert into food_restrictions
+values (2, 'Gluten free');
+
+insert into food_restrictions
+values (3, 'Dairy free');
+
+insert into food_restrictions
+values (4, 'Nut free');
+
+insert into food_restrictions
+values (5, 'Please ask server for details');
 
 commit;
 
@@ -238,19 +293,19 @@ commit;
 -- Insert data into bucket_list_food
 
 insert into bucket_list_food
-values (2, 'Contains dairy products', 'Semi-nutritious');
+values (2, 0);
 
 insert into bucket_list_food
-values (3, 'May contain dairy products', null);
+values (3, null);
 
 insert into bucket_list_food
-values (4, 'Please check the menu', null);
+values (4, 5);
 
 insert into bucket_list_food
-values (11, 'Please ask your server for details', null);
+values (11, 5);
 
 insert into bucket_list_food
-values (15, null, 'Do not consume in large quantities')
+values (15, null)
 
 commit;
 
@@ -346,67 +401,96 @@ values ('matthew.liao437', 'justinandkoh');
 
 commit;
 
+
+-- Insert data into bucket_list_type
+
+insert into bucket_list_type
+values (0, 'Food');
+
+insert into bucket_list_type
+values (1, 'Event');
+
+insert into bucket_list_type
+values (2, 'Activity');
+
+commit;
+
+
+-- Insert data into evaluation
+
+insert into evaluation
+values (0, 'Pending');
+
+insert into evaluation
+values (1, 'Approved');
+
+insert into evaluation
+values (2, 'Rejected');
+
+commit;
+
+
 -- Insert data into item_request_requests
 
 insert into item_request_requests
-values (1, 1, 'event', 'Doll Town', 'Stroll through this small village where you''ll find the dolls easily outnumber the people.', null, TO_DATE('2016-05-06', 'YYYY-MM-DD'), 'hauntingsjapan', 1);
+values (1, 1, 1, 'Doll Town', 'Stroll through this small village where you''ll find the dolls easily outnumber the people.', TO_DATE('2016-05-06', 'YYYY-MM-DD'), 'hauntingsjapan', 1);
 
 insert into item_request_requests
-values (2, 2, 'food', 'Cheese Bubble Tea', 'Cheese bubble tea', null, TO_DATE('2016-02-18', 'YYYY-MM-DD'), 'cyberboy', 1);
+values (2, 2, 0, 'Cheese Bubble Tea', 'Cheese bubble tea', TO_DATE('2016-02-18', 'YYYY-MM-DD'), 'cyberboy', 1);
 
 insert into item_request_requests
-values (3, 3, 'food', 'CatFe', 'A cafe where you can play with cats while you drink coffee. If you like the cat you can even apply to adopt them!', 'catfe@gmail.ca', TO_DATE('2016-02-14', 'YYYY-MM-DD'), 'matthew.liao437', 1);
+values (3, 3, 0, 'CatFe', 'A cafe where you can play with cats while you drink coffee. If you like the cat you can even apply to adopt them!', TO_DATE('2016-02-14', 'YYYY-MM-DD'), 'matthew.liao437', 1);
 
 insert into item_request_requests
-values (4, 4, 'food', 'Hello Kitty Cafe', 'A unique Hello Kitty themed cafe. Everything from the dining experience to the dishes are Hello Kitty themed.', null, TO_DATE('2016-02-14', 'YYYY-MM-DD'), 'matthew.liao437', 1);
+values (4, 4, 0, 'Hello Kitty Cafe', 'A unique Hello Kitty themed cafe. Everything from the dining experience to the dishes are Hello Kitty themed.', TO_DATE('2016-02-14', 'YYYY-MM-DD'), 'matthew.liao437', 1);
 
 insert into item_request_requests
-values (5, 5, 'activity', 'Super Scary Labyrinth of Fear', 'At 900m long, this is the longest haunted house in the world! Come visit the ghosts at this mental institution located in the Fuji-Q theme park.', null, TO_DATE('2016-04-26', 'YYYY-MM-DD'), 'hauntingsjapan', 1);
+values (5, 5, 2, 'Super Scary Labyrinth of Fear', 'At 900m long, this is the longest haunted house in the world! Come visit the ghosts at this mental institution located in the Fuji-Q theme park.', TO_DATE('2016-04-26', 'YYYY-MM-DD'), 'hauntingsjapan', 1);
 
 insert into item_request_requests
-values (6, 6, 'activity', 'Crater of Diamonds State Park',  'Try your luck at finding diamonds in this state park. You get to keep the diamonds you find.', 'craterdiamonds@gmail.com', TO_DATE('2016-04-28', 'YYYY-MM-DD'), 'cyberboy', 1);
+values (6, 6, 2, 'Crater of Diamonds State Park',  'Try your luck at finding diamonds in this state park. You get to keep the diamonds you find.', TO_DATE('2016-04-28', 'YYYY-MM-DD'), 'cyberboy', 1);
 
 insert into item_request_requests
-values (7, 7, 'event', 'Dining in the Dark', 'Immerse your senses with this pitch-black dining experience.', null, TO_DATE('2017-08-10', 'YYYY-MM-DD'), 'matthew.liao437', 1);
+values (7, 7, 1, 'Dining in the Dark', 'Immerse your senses with this pitch-black dining experience.', TO_DATE('2017-08-10', 'YYYY-MM-DD'), 'matthew.liao437', 1);
 
 insert into item_request_requests
-values (8, 8, 'activity', 'Ramen Museum', 'Take a tour at this museum dedicated to the history and different regional styles of ramen.', 'ramenmuseum@gmail.jp', TO_DATE('2017-08-13', 'YYYY-MM-DD'), 'cyberboy', 1);
+values (8, 8, 2, 'Ramen Museum', 'Take a tour at this museum dedicated to the history and different regional styles of ramen.', TO_DATE('2017-08-13', 'YYYY-MM-DD'), 'cyberboy', 1);
 
 insert into item_request_requests
-values (9, 9, 'activity', 'Skywalk at Macau Tower', 'Walk around the edge of Macau Tower in this thrilling adventure.', 'macautower@gmail.com', TO_DATE('2017-07-31', 'YYYY-MM-DD'), 'cyberboy', 1);
+values (9, 9, 2, 'Skywalk at Macau Tower', 'Walk around the edge of Macau Tower in this thrilling adventure.', TO_DATE('2017-07-31', 'YYYY-MM-DD'), 'cyberboy', 1);
 
 insert into item_request_requests
-values (10, 10, 'event', 'Paris catacombs', 'Visit the underground ossuaries of Paris ... if you dare ...', 'visitparis@gmail.com', TO_DATE('2017-10-13', 'YYYY-MM-DD'), 'hauntingsjapan', 1);
+values (10, 10, 1, 'Paris catacombs', 'Visit the underground ossuaries of Paris ... if you dare ...', TO_DATE('2017-10-13', 'YYYY-MM-DD'), 'hauntingsjapan', 1);
 
 insert into item_request_requests
-values (11, 11, 'food', 'Dinner in the Sky', 'Dine 160+ feet off the ground with this unique dining experience.', null, TO_DATE('2019-02-13', 'YYYY-MM-DD'), 'widjaja', 1);
+values (11, 11, 0, 'Dinner in the Sky', 'Dine 160+ feet off the ground with this unique dining experience.', TO_DATE('2019-02-13', 'YYYY-MM-DD'), 'widjaja', 1);
 
 insert into item_request_requests
-values (12, 12, 'activity', 'Trickeye Museum', 'Trick your friends with this museum dedicated to 2D and 3D illusions.', 'trickeyemuseum@gmail.com', TO_DATE('2018-12-27', 'YYYY-MM-DD'), 'matthew.liao437', 1);
+values (12, 12, 2, 'Trickeye Museum', 'Trick your friends with this museum dedicated to 2D and 3D illusions.', TO_DATE('2018-12-27', 'YYYY-MM-DD'), 'matthew.liao437', 1);
 
 insert into item_request_requests
-values (13, 13, 'activity', 'XLine Dubai', 'Zipline across the city of Dubai in the worlds longest urban zipline.', 'xlinedubai@gmail.com', TO_DATE('2019-02-05', 'YYYY-MM-DD'), 'widjaja', 1);
+values (13, 13, 2, 'XLine Dubai', 'Zipline across the city of Dubai in the worlds longest urban zipline.', TO_DATE('2019-02-05', 'YYYY-MM-DD'), 'widjaja', 1);
 
 insert into item_request_requests
-values (14, 14, 'event', 'Sandboarding', 'Can''t swim? Hate water? Try sand surfing in the great Sahara desert instead!', 'tourismmorocco@gmail.com', TO_DATE('2019-02-13', 'YYYY-MM-DD'), 'justinandkoh', 1);
+values (14, 14, 1, 'Sandboarding', 'Can''t swim? Hate water? Try sand surfing in the great Sahara desert instead!', TO_DATE('2019-02-13', 'YYYY-MM-DD'), 'justinandkoh', 1);
 
 insert into item_request_requests
-values (15, 15, 'food', 'Hotel de Glace', 'Visit North America''s only ice hotel. Made entirely of snow and ice it''s the coolest way to spend the night!', 'hoteldeglace@gmail.ca', TO_DATE('2019-03-01', 'YYYY-MM-DD'), 'justinandkoh', 1);
+values (15, 15, 0, 'Hotel de Glace', 'Visit North America''s only ice hotel. Made entirely of snow and ice it''s the coolest way to spend the night!', TO_DATE('2019-03-01', 'YYYY-MM-DD'), 'justinandkoh', 1);
 
 insert into item_request_requests
-values (16, 1, 'event', 'Doll Town', 'Stroll through this small village where you''ll find the dolls easily outnumber the people.', null, TO_DATE('2019-02-06', 'YYYY-MM-DD'), 'hauntingsjapan', 1);
+values (16, 1, 1, 'Doll Town', 'Stroll through this small village where you''ll find the dolls easily outnumber the people.', TO_DATE('2019-02-06', 'YYYY-MM-DD'), 'hauntingsjapan', 1);
 
 insert into item_request_requests
-values (17, 2, 'food', 'Cheese Bubble Tea', 'A unique bubble tea.', null, TO_DATE('2019-02-20', 'YYYY-MM-DD'), 'matthew.liao437', 1);
+values (17, 2, 0, 'Cheese Bubble Tea', 'A unique bubble tea.', TO_DATE('2019-02-20', 'YYYY-MM-DD'), 'matthew.liao437', 1);
 
 insert into item_request_requests
-values (18, 2, 'food', 'Cheese Bubble Tea', 'A unique bubble tea made with cheese.', null, TO_DATE('2019-02-20', 'YYYY-MM-DD'), 'matthew.liao437', 1);
+values (18, 2, 0, 'Cheese Bubble Tea', 'A unique bubble tea made with cheese.', TO_DATE('2019-02-20', 'YYYY-MM-DD'), 'matthew.liao437', 1);
 
 insert into item_request_requests
-values (19, 10, 'activity', 'Poveglia Island', 'Located just a couple minutes from Venice, this island was used as a quarintine from the plague and as a mental institution. Needless to say it''s home to thousands of (angry) ghosts!', null, TO_DATE('2019-02-28', 'YYYY-MM-DD'), 'hauntingsjapan', 0);
+values (19, 10, 2, 'Poveglia Island', 'Located just a couple minutes from Venice, this island was used as a quarintine from the plague and as a mental institution. Needless to say it''s home to thousands of (angry) ghosts!', TO_DATE('2019-02-28', 'YYYY-MM-DD'), 'hauntingsjapan', 0);
 
 insert into item_request_requests
-values (20, 2, 'food', 'Seasonal BBT at Coco', 'Come try Coco''s seasonal bubble tea! For a limited time only with limited quantities.', 'cococanada@coco.com', TO_DATE('2019-03-01', 'YYYY-MM-DD'), 'matthew.liao437', 1);
+values (20, 2, 0, 'Seasonal BBT at Coco', 'Come try Coco''s seasonal bubble tea! For a limited time only with limited quantities.', TO_DATE('2019-03-01', 'YYYY-MM-DD'), 'matthew.liao437', 2);
 
 commit;
 
@@ -527,7 +611,7 @@ insert into item_request_evaluates
 values (18, TO_DATE('2019-03-01', 'YYYY-MM-DD'), 1, 'cherylyao');
 
 insert into item_request_evaluates
-values (20, TO_DATE('2019-03-15', 'YYYY-MM-DD'), 0, 'cherylyao');
+values (20, TO_DATE('2019-03-15', 'YYYY-MM-DD'), 2, 'cherylyao');
 
 commit;
 

@@ -473,27 +473,27 @@ form p > i.to-right + textarea,
 table {
   margin: 0 0 1.3em;
   line-height: 1.3em;
-  border-right: 1px solid #dedede;
+  border-right: 1px solid #1c1c1c;
   width: 100%;
-  background-color: white;
+  background-color: black;
 }
 
 tr {
-  border-top: 1px solid #dedede;
-  border-bottom: 1px solid #dedede;
+  border-top: 1px solid #1c1c1c;
+  border-bottom: 1px solid #1c1c1c;
 }
 
 td, th {
-  border-left: 1px solid #dedede;
+  border-left: 1px solid #1c1c1c;
   padding: 10px 16px;
-  color: #1a2b44;
+  color: white;
   text-align:center; 
 }
 
 th {
-  border-left: 1px solid #dedede;
+  border-left: 1px solid #1c1c1c;
   padding: 10px 16px;
-  color: #377783;
+  color: #FFC114;
 }
 
 .striped-col td:nth-child(even),

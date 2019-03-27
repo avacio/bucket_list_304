@@ -30,6 +30,7 @@ create table bucket_list_item (
 	bl_item_id int,
 	link varchar(500),
     name varchar(50) not null,
+    price int,
 	description varchar(500) not null,
 	location varchar(100) not null,
 	points_value int not null,
@@ -220,49 +221,49 @@ commit;
 -- Insert data into bucket_list_item
 
 insert into bucket_list_item
-values (1, 'https://news.nationalgeographic.com/2017/10/japan-dolls-population-artist-nagoro-spd/', 'Doll Town', 'Stroll through this small village where you''ll find the dolls easily outnumber the people.', 'Nagoro, Japan', 100);
+values (1, 'https://news.nationalgeographic.com/2017/10/japan-dolls-population-artist-nagoro-spd/', 'Doll Town', 0, 'Stroll through this small village where you''ll find the dolls easily outnumber the people.', 'Nagoro, Japan', 100);
 
 insert into bucket_list_item
-values (2, 'http://www.happy-lemon.com/en/drink/drink.php', 'Cheese Bubble Tea', 'A unique bubble tea made with cheese.', 'Richmond, BC', 10);
+values (2, 'http://www.happy-lemon.com/en/drink/drink.php', 'Cheese Bubble Tea', 6, 'A unique bubble tea made with cheese.', 'Richmond, BC', 10);
 
 insert into bucket_list_item
-values (3, 'www.catfe.ca', 'CatFe', 'A cafe where you can play with cats while you drink coffee. If you like the cat you can even apply to adopt them!', 'Vancouver, Canada', 100);
+values (3, 'www.catfe.ca', 'CatFe', 10, 'A cafe where you can play with cats while you drink coffee. If you like the cat you can even apply to adopt them!', 'Vancouver, Canada', 100);
 
 insert into bucket_list_item
-values (4, 'http://hellokittyhousebangkok.com/', 'Hello Kitty House', 'A unique Hello Kitty themed cafe. Everything from the dining experience to the dishes are Hello Kitty themed.', 'Bangkok, Thailand', 60);
+values (4, 'http://hellokittyhousebangkok.com/', 'Hello Kitty House', 30, 'A unique Hello Kitty themed cafe. Everything from the dining experience to the dishes are Hello Kitty themed.', 'Bangkok, Thailand', 60);
 
 insert into bucket_list_item
-values (5, 'https://www.fujiq.jp/en/attraction/senritsu.html', 'Super Scary Labyrinth of Fear', 'At 900m long, this is the longest haunted house in the world! Come visit the ghosts at this mental institution located in the Fuji-Q theme park.', 'Fuji-Q Highland Theme Park, Japan', 1000);
+values (5, 'https://www.fujiq.jp/en/attraction/senritsu.html', 'Super Scary Labyrinth of Fear', 69, 'At 900m long, this is the longest haunted house in the world! Come visit the ghosts at this mental institution located in the Fuji-Q theme park.', 'Fuji-Q Highland Theme Park, Japan', 1000);
 
 insert into bucket_list_item
-values (6, 'https://www.arkansasstateparks.com/parks/crater-diamonds-state-park', 'Crater of Diamonds State Park',  'Try your luck at finding diamonds in this state park. You get to keep the diamonds you find.', 'Pike County, Arkansas', 80);
+values (6, 'https://www.arkansasstateparks.com/parks/crater-diamonds-state-park', 'Crater of Diamonds State Park', 0, 'Try your luck at finding diamonds in this state park. You get to keep the diamonds you find.', 'Pike County, Arkansas', 80);
 
 insert into bucket_list_item
-values (7, 'http://www.darktable.ca/about.html', 'Dining in the Dark', 'Immerse your senses with this pitch-black dining experience.', 'Kitsilano, Vancouver', 100);
+values (7, 'http://www.darktable.ca/about.html', 'Dining in the Dark', 45, 'Immerse your senses with this pitch-black dining experience.', 'Kitsilano, Vancouver', 100);
 
 insert into bucket_list_item
-values (8, 'http://www.raumen.co.jp/english/', 'Ramen Museum', 'Take a tour at this museum dedicated to the history and different regional styles of ramen.', 'Osaka, Japan', 25);
+values (8, 'http://www.raumen.co.jp/english/', 'Ramen Museum', 3, 'Take a tour at this museum dedicated to the history and different regional styles of ramen.', 'Osaka, Japan', 25);
 
 insert into bucket_list_item
-values (9, 'https://www.macautower.com.mo/tower-adventure/tower-adventure/skywalk/', 'Skywalk at Macau Tower', 'Walk around the edge of Macau Tower in this thrilling adventure.', 'Macau, China', 500);
+values (9, 'https://www.macautower.com.mo/tower-adventure/tower-adventure/skywalk/', 'Skywalk at Macau Tower', 147, 'Walk around the edge of Macau Tower in this thrilling adventure.', 'Macau, China', 500);
 
 insert into bucket_list_item
-values (10, 'http://catacombes.paris.fr/en', 'Paris catacombs', 'Visit the underground ossuaries of Paris ... if you dare ...', 'Paris, France', 1000);
+values (10, 'http://catacombes.paris.fr/en', 'Paris catacombs', 44, 'Visit the underground ossuaries of Paris ... if you dare ...', 'Paris, France', 1000);
 
 insert into bucket_list_item
-values (11, 'https://dinnerintheskycanada.com/', 'Dinner in the Sky', 'Dine 160+ feet off the ground with this unique dining experience.', 'Canada', 500);
+values (11, 'https://dinnerintheskycanada.com/', 'Dinner in the Sky', 150, 'Dine 160+ feet off the ground with this unique dining experience.', 'Canada', 500);
 
 insert into bucket_list_item
-values (12, 'http://trickeye.com/', 'Trickeye Museum', 'Trick your friends with this museum dedicated to 2D and 3D illusions.', 'Seoul, South Korea', 50);
+values (12, 'http://trickeye.com/', 'Trickeye Museum', 15, 'Trick your friends with this museum dedicated to 2D and 3D illusions.', 'Seoul, South Korea', 50);
 
 insert into bucket_list_item
-values (13, 'http://xdubai.com/xline/', 'XLine Dubai', 'Zipline across the city of Dubai in the worlds longest urban zipline.', 'Dubai', 250);
+values (13, 'http://xdubai.com/xline/', 'XLine Dubai', 500, 'Zipline across the city of Dubai in the worlds longest urban zipline.', 'Dubai', 250);
 
 insert into bucket_list_item
-values (14, 'http://www.mouhoutours.com/morocco-sandboarding-merzouga-experience/', 'Sandboarding', 'Can''t swim? Hate water? Try sand surfing in the great Sahara desert instead!', 'Morocco', 100);
+values (14, 'http://www.mouhoutours.com/morocco-sandboarding-merzouga-experience/', 'Sandboarding', 450, 'Can''t swim? Hate water? Try sand surfing in the great Sahara desert instead!', 'Morocco', 100);
 
 insert into bucket_list_item
-values (15, 'https://www.valcartier.com/en/accommodations/ice-hotel/?langue=fr', 'Hotel de Glace', 'Visit North America''s only ice hotel. Made entirely of snow and ice it''s the coolest way to spend the night!', 'Quebec, Canada', 50);
+values (15, 'https://www.valcartier.com/en/accommodations/ice-hotel/?langue=fr', 'Hotel de Glace', 350, 'Visit North America''s only ice hotel. Made entirely of snow and ice it''s the coolest way to spend the night!', 'Quebec, Canada', 50);
 
 commit;
 

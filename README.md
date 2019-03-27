@@ -27,7 +27,6 @@ TODO:
     - food: look into multiple select dietary restrictions, not sure if possible with PHP
     - price range: enforce min < max
     - add location to search (input type field or select option?)
-    - need to connect PHP input to database
     - SORT BY POPULARITY AND RECENTLY ADDED
         - write SQL in the php (stubs right now)
 - explore.php (not yet created)

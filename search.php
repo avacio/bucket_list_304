@@ -27,6 +27,11 @@
 
 <body>
 
+    <?php $searchName = $_GET['searchName']; 
+    echo "<script>console.log( 'searchName: ' + '${searchName}')</script>";
+//        $searchName = "%${searchName}%";
+    ?>
+    
     <!-- Top Header / Header Bar -->
     <div id="home" class="boxed-view">
         <?php include("header.html");?>
@@ -45,7 +50,7 @@
                         <div class="slider-helper">
                             <ul class="clean-list">
                                 <li class="text-white text-center">
-                                    <h1 class="font-3x font-40">RANDOM ITEM</h1>
+                                    <h1 class="font-3x font-40">Search results<?php echo ": " . $searchName . "<br>";?></h1>
 <!--                                    <p class="darken font-100 welcome-mess">Food is not rational. Food is culture, habit, craving and identity. -- Jonathan Safran Foer</p>-->
                                 </li>
                             </ul>
@@ -65,10 +70,8 @@ $db_conn = OCILogon("ora_k7c1b", "a20470150",
 
 function printTable($resultFromSQL, $namesOfColumnsArray)
 {
-//    echo "<br>RESULTS:<br>";
     echo "<table>";
     echo "<tr>";
-    // iterate through the array and print the string contents
     foreach ($namesOfColumnsArray as $name) {
         echo "<th>$name</th>";
     }
@@ -93,11 +96,18 @@ function printTable($resultFromSQL, $namesOfColumnsArray)
 if ($db_conn) {
     echo "<script>console.log( 'Connected to Oracle.')</script>";
     $columnNames = array("Name", "Price ($)", "Description", "Link", "Location", "Points");
-    
-   
-$result = executePlainSQL("select * from (select name, price, description, link, location, points_value from bucket_list_item ORDER BY dbms_random.value)
-where rownum <= 1"
-);
+    $searchName = "%${searchName}%";
+
+// sorts matches by popularity
+$result = executePlainSQL("select b.name, b.price, b.description, b.link, b.location, b.points_value 
+FROM bucket_list_item b LEFT OUTER JOIN itemCount i
+ON b.bl_item_id = i.bl_item_id
+WHERE b.name LIKE '${searchName}'
+OR b.location LIKE '${searchName}'
+OR b.description LIKE '${searchName}'
+OR b.link LIKE '${searchName}'
+order by i.items DESC NULLS LAST
+");
     
     printTable($result, $columnNames);
 
@@ -109,7 +119,7 @@ where rownum <= 1"
 }
 ?>
 
-        <?php include("footer.html");?>
+<?php include("footer.html");?>
 
 
 </body>

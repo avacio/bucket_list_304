@@ -27,9 +27,6 @@ TODO:
 - admin.php
 - user.php
 - request.php (not yet created)
-- header.html
-    - "search" query only by name
-    - fix "surprise me" query
 - click to view more details about particular item? need to make a php page for this?
 
 ICEBOX:

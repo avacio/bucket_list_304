@@ -5,7 +5,14 @@
                     <div class="col-md-6 col-sm-8">
                         <ul class="inline-list uppercase font-small header-bar">
                             <li><a href="item.php"><i class="fa fa-random"></i> surprise me</a></li>
-                            <li><i class="fa fa-search"></i> search</li>
+                            <li>
+                            <form id="searchform" method="get" action="search.php" class="row no-padding">
+                            <input type="text" placeholder="Search" name="searchName" id="searchName" style="height: 4px; background-color: #000000; color: white" />
+</li><li>
+                             <form method="POST" action="search.php">
+                                <button type="submit" name="search" class="button-sm orange hover-dark-orange soft-corners" style="margin: 0px 0px 0px 0px"><i class="fa fa-search"></i></button>
+                            </form>
+                                </form></li>
                         </ul>
                     </div>
 
@@ -61,10 +68,7 @@
                         <div class="col-md-8 col-xs-4">
                             <nav class="main-nav clearfix">
                                 <ul class="clean-list to-right">
-                                    <!-- 
-                                    <li><a href="404.html">Accomodations</a></li>
--->
-<!--                        CHANGE PHP FILE?-->
+
                                      <li><a href="food.php">Food</a></li>
                                      <li><a href="event.php">Event</a></li>
                                     <li><a href="activity.php">Activity</a></li>

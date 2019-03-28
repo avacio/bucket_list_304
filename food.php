@@ -116,6 +116,9 @@
             </div>
         </div>
         <br><br>
+                            </li>
+                            </form>
+        
         <?php
 
 require('parse-sql.php'); 
@@ -187,10 +190,6 @@ if (strcmp($sortBy, 'priceAsc') == 0) {
 	$sortBy = "b.points_value ASC";
 } else if (strcmp($sortBy, 'pointsDesc') == 0) {
 	$sortBy = "b.points_value DESC";
-//} else if (strcmp($sortBy, 'recentlyAdded') == 0) {
-//	$sortBy = "b.name"; // TODO STUB
-//} else if (strcmp($sortBy, 'popularity') == 0) {
-//    $sortBy = "b.name"; // TODO STUB
 } else if (strcmp($sortBy, 'abc') == 0) {
 	$sortBy = "b.name";
 }

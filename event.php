@@ -193,7 +193,7 @@ echo "<script>console.log( 'sortBy changed to: ' + '${sortBy}')</script>";
 // Connect Oracle...
 if ($db_conn) {
     echo "<script>console.log( 'Connected to Oracle.')</script>";
-    $columnNames = array("Name", "Start Date", "End Date", "Price ($)", "Location", "Points");
+    $columnNames = array("Name", "Start Date", "End Date", "Price ($)", "Link", "Location", "Points");
     
     if (array_key_exists('search', $_GET)) {
     echo "<script>console.log( 'return search.')</script>";
@@ -206,7 +206,7 @@ if ($db_conn) {
 //from bucket_list_contains
 //group by bl_item_id");
 //        OCICommit($db_conn);
-        $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.location, b.points_value
+        $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.link, b.location, b.points_value
 FROM bucket_list_event e, bucket_list_item b LEFT OUTER JOIN itemCount i
 ON b.bl_item_id = i.bl_item_id
 WHERE b.bl_item_id = e.event_item_id
@@ -217,7 +217,7 @@ AND e.event_end <= '${endDate}'
 order by i.items DESC NULLS LAST
 ");
     } else if (strcmp($sortBy, 'recentlyAdded') == 0) {
-$result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.location, b.points_value
+$result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.link, b.location, b.points_value
 FROM bucket_list_item b, bucket_list_event e, items i
 WHERE b.bl_item_id = e.event_item_id
 AND b.location LIKE '${location}'
@@ -228,7 +228,7 @@ AND b.bl_item_id = i.bl_item_id
 order by i.modifiedlast DESC
         ");
     } else {
-     $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.location, b.points_value
+     $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.link, b.location, b.points_value
 FROM bucket_list_item b, bucket_list_event e
 WHERE b.bl_item_id = e.event_item_id
 AND b.location LIKE '${location}'
@@ -240,13 +240,12 @@ ORDER BY ${sortBy}
     }} else
         {
         echo "<script>console.log('Show all.')</script>";
-        $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.location, b.points_value
+        $result = executePlainSQL("select b.name, e.event_start, e.event_end, b.price, b.link, b.location, b.points_value
 FROM bucket_list_item b, bucket_list_event e
 Where b.bl_item_id = e.event_item_id
         ");
     }
     printTable($result, $columnNames);
-
 	OCILogoff($db_conn);
 } else {
 	echo "cannot connect";

@@ -57,12 +57,7 @@
 
 <?php
 $success = True; //keep track of errors so it redirects the page only if there are no errors
-$query1 = 'SELECT * FROM customer c, zipcodecitystate z WHERE c.zipcode = z.zipcode ORDER BY name';
-$conn = oci_connect("ora_k7c1b", "a20470150", "ug"); // enter ugrad credentials here
-$query2 = 'SELECT room.*, bedroom_type_name FROM room LEFT OUTER JOIN bedroom on room.roomno = bedroom.roomno';
-$query3 = 'SELECT r.*, room.type FROM reservation r, room where r.room_no = room.roomno';
-$query4 = "SELECT floorno, sum(capacity), count(*) FROM room group by floorno";
-$query9 = "SELECT * from checkout";
+
 if (!$conn){
 	echo "cannot connect";
 	$e = OCI_Error(); // For OCILogon errors pass no handle
@@ -183,7 +178,7 @@ if($conn){
 }
 ?>
 
-<form method="POST" action="employee.php">
+<form method="POST" action="admin.php">
    <p><input type="text" placeholder="Confirmation No." name="conf"><input type="number" placeholder="Extra Costs" name="extra"><input type="number" placeholder="Damage Costs" name="damage">
 <input type="submit" value="Checkout" name="checkout"></p>
 </form>
@@ -279,89 +274,12 @@ if($conn){
 	OCILogoff($conn);
 }
 ?>
- <script>
-  $(function(){
-    $('#admin1').dataTable({
-		order: []
-	});
-	$('#admin2').dataTable({
-		order: []
-	});
-	$('#admin3').dataTable({
-		order: [],
-		"columnDefs":[
-		{
-			"targets": [4],
-			"visible": false,
-			"searchable": false
-		}
-		]
-	});
-	$('#admin4').dataTable({
-		order: []	
-	});
-	
-	$('#admin5').dataTable({
-		order: []	
-	});
-  })
-  
-	function toggleView(id){
-		$('.alltable').hide();
-		$('#' +id).show();
-	}
-  $('.alltable').hide();
-  $('#reserve').show();
-  $('#resultbestcust').hide();
-  
-  
-  $('#importantcust').click(function(){
-	  $('#resultbestcust').toggle();
-  })
-  </script>
-  
-  
- <script>
-function showMaxMin(v) {
-	var result = "";
-	
-	if (v == "max" || v == "min"){
-		result = "resultavail";
-	}
-	if (v == "importantcust"){
-		result = "resultbestcust";
-	}
-    if (v == "") {
-        document.getElementById(result).innerHTML = "";
-        return;
-    } else { 
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById(result).innerHTML = xmlhttp.responseText;
-            }
-        };
-        xmlhttp.open("GET","empajax.php?q="+v,true);
-        xmlhttp.send();
-    }
-}
-</script>
 
 <style>
 select > .placeholder {
   display: none;
 }
 
-/*div.alltable {
-  width: 700px ;
-  margin: 0 auto;
-}*/
 </style>
 
 </div>

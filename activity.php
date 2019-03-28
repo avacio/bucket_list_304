@@ -190,7 +190,7 @@ echo "<script>console.log( 'sortBy changed to: ' + '${sortBy}')</script>";
 // Connect Oracle...
 if ($db_conn) {
     echo "<script>console.log( 'Connected to Oracle.')</script>";
-    $columnNames = array("Name", "Start Date", "End Date", "Weekdays Scheduled", "Price ($)", "Location", "Points");
+    $columnNames = array("Name", "Start Date", "End Date", "Weekdays Scheduled", "Price ($)", "Link", "Location", "Points");
     
     if (array_key_exists('search', $_GET)) {
     echo "<script>console.log( 'return search.')</script>";
@@ -203,40 +203,37 @@ if ($db_conn) {
 //from bucket_list_contains
 //group by bl_item_id");
 //        OCICommit($db_conn);
-        $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
+        $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.link, b.location, b.points_value
 FROM bucket_list_activity a, bucket_list_item b LEFT OUTER JOIN itemCount i
 ON b.bl_item_id = i.bl_item_id
 WHERE b.bl_item_id = a.activity_item_id
 AND b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
+AND '${startDate}' <= a.activity_end
 order by i.items DESC NULLS LAST
 ");
     } else if (strcmp($sortBy, 'recentlyAdded') == 0) {
-$result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
+$result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.link, b.location, b.points_value
 FROM bucket_list_item b, bucket_list_activity a, items i
 WHERE b.bl_item_id = a.activity_item_id
 AND b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
+AND '${startDate}' <= a.activity_end
 order by i.modifiedlast DESC
         ");
     } else {
-     $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
+     $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.link, b.location, b.points_value
 FROM bucket_list_item b, bucket_list_activity a
 WHERE b.bl_item_id = a.activity_item_id
 AND b.location LIKE '${location}'
 AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
-AND '${startDate}' <= a.activity_start
-AND a.activity_end <= '${endDate}'
+AND '${startDate}' <= a.activity_end
 ORDER BY ${sortBy}
         ");
     }} else
         {
         echo "<script>console.log('Show all.')</script>";
-        $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.location, b.points_value
+        $result = executePlainSQL("select b.name, a.activity_start, a.activity_end, a.weekdays_scheduled, b.price, b.link, b.location, b.points_value
 FROM bucket_list_item b, bucket_list_activity a
 Where b.bl_item_id = a.activity_item_id
         ");

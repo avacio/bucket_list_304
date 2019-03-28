@@ -880,11 +880,13 @@ h2 {
   left: 50%;
   transform: translateX(-50%);
   overflow: hidden;
+color: white;
 }
 
 .signin_form {
   position: relative;
-  background: white;
+/*  background: #353839;*/
+    background: #1C1C1C;
   visibility: visible;
   opacity: 1;
   height: auto;

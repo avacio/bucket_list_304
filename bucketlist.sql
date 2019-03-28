@@ -366,13 +366,19 @@ values ('cherylyao', 'ilove304');
 insert into admin
 values ('alexisgervacio', 'ilovescience');
 
+insert into admin
+values ('test', 'test');
+
 commit;
 
 
 -- Insert data into consumer
 
 insert into consumer
-values ('hauntingsjapan', 'iizuka233', 'Rimi Iizuka', 100, 'rimi.i@gmail.com', null);
+values ('hi', 'password', 'Test User', 111, 'fake@gmail.com', null);
+
+insert into consumer
+values ('hauntingsjapan', 'password', 'Rimi Iizuka', 100, 'rimi.i@gmail.com', null);
 
 insert into consumer
 values ('cyberboy', 'cyborg4evers', 'Shawma Chun', 670, 'cyberboy@gmail.com', '8085258517');

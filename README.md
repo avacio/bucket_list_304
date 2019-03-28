@@ -26,6 +26,7 @@ TODO:
     - "recommended" section, for logged in users? or just put in the user page?
 - admin.php
 - user.php
+    - hardcoded login details (not connected to database yet)
 - request.php (not yet created)
 - click to view more details about particular item? need to make a php page for this?
 

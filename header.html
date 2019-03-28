@@ -18,7 +18,9 @@
 
                     <div class="col-md-6 col-sm-4">
                         <ul class="inline-list to-right header-bar">
-                          <li><a href="user.php"><i class="fa fa-user"></i>USER</a></li>                           
+                          <li><a class="popup-with-form" href="#user-login-form">
+                              <span class="hidden-xs"><i class="fa fa-user"></i> USER</span>
+                              </a></li>                         
                           <li><a class="popup-with-form" href="#login-form">
                               <span class="hidden-xs">ADMIN</span>
                               </a></li>
@@ -27,6 +29,43 @@
                 </div>
             </div>
      
+
+
+<!--
+<form id="searchform" method="get" action="search.php" class="row no-padding">
+                            <input type="text" placeholder="Search" name="searchName" id="searchName" style="height: 4px; background-color: #000000; color: white" />
+</li><li>
+                             <form method="POST" action="search.php">
+                                <button type="submit" name="search" class="button-sm orange hover-dark-orange soft-corners" style="margin: 0px 0px 0px 0px"><i class="fa fa-search"></i></button>
+                            </form>
+                                </form>
+-->
+<!-- User Login Panel -->
+<div id="user-login-form" class="mfp-hide white-popup-block">
+<div class="signin">
+  <div class="signin_title">
+    <h2>User Login</h2>
+  </div>
+    <div class="signin_form">
+      <form id="userlogin" method="post" action = "user.php">
+      <div class="signin_fields">
+
+        <div class="field">
+          <label for="fieldUser" class="label">Username</label>
+          <input type="text" id="user_username" name = "user_username" class="input"  />
+        </div
+>        <div class="field">
+          <label for="fieldPassword" class="label">Password</label>
+          <input type="password" id="user_password" name="user_password" class="input" />
+        </div>
+        <div class="signin_footer" style="text-align:center;">
+          <button class="btn button-sm orange hover-dark-orange soft-corners" type="submit">Login</button>
+        </div>
+      </div>
+    </form>
+     </div>
+  </div>
+</div>
 
 <!-- Admin Login Panel -->
 <div id="login-form" class="mfp-hide white-popup-block">
@@ -47,7 +86,7 @@
           <input type="password" id="admin_password" name="admin_password" class="input" />
         </div>
         <div class="signin_footer" style="text-align:center;">
-          <button class="btn button-sm green hover-dark-green soft-corners" type="submit">Login</button>
+          <button class="btn button-sm orange hover-dark-orange soft-corners" type="submit">Login</button>
         </div>
       </div>
     </form>
@@ -61,8 +100,8 @@
             <div class="nav-bar sticky-bar grey">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4 col-xs-8"><b>
-                            <h1 class="font-2x font-100"> <a href="index.php">BucketList</a></h1></b>
+                        <div class="col-md-4 col-xs-7"><b>
+                            <h1 class="font-25x font-500"> <a href="index.php">BucketList</a></h1></b>
 
                         </div>
                         <div class="col-md-8 col-xs-4">

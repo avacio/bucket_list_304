@@ -198,7 +198,7 @@ echo "<script>console.log( 'sortBy changed to: ' + '${sortBy}')</script>";
 // Connect Oracle...
 if ($db_conn) {
     echo "<script>console.log( 'Connected to Oracle.')</script>";
-    $columnNames = array("Name", "Price ($)", "Location", "Restrictions", "Points");
+    $columnNames = array("Name", "Price ($)", "Link", "Location", "Restrictions", "Points");
     
     if (array_key_exists('search', $_GET)) {
     echo "<script>console.log( 'return search.')</script>";
@@ -211,7 +211,7 @@ if ($db_conn) {
 //from bucket_list_contains
 //group by bl_item_id");
 //        OCICommit($db_conn);
-        $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
+        $result = executePlainSQL("select b.name, b.price, b.link, b.location, fr.restriction, b.points_value
 FROM bucket_list_food f, food_restrictions fr, bucket_list_item b LEFT OUTER JOIN itemCount i
 ON b.bl_item_id = i.bl_item_id
 WHERE b.bl_item_id = f.food_item_id
@@ -222,7 +222,7 @@ AND '${priceMin}' <= b.price AND b.price <= '${priceMax}'
 order by i.items DESC NULLS LAST
 ");
     } else if (strcmp($sortBy, 'recentlyAdded') == 0) {
-$result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
+$result = executePlainSQL("select b.name, b.price, b.link, b.location, fr.restriction, b.points_value
 FROM bucket_list_item b, bucket_list_food f, food_restrictions fr, items i
 WHERE b.bl_item_id = f.food_item_id
 AND fr.restriction_id = f.restrictions
@@ -233,7 +233,7 @@ AND b.bl_item_id = i.bl_item_id
 order by i.modifiedlast DESC
         ");
     } else {
-     $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
+     $result = executePlainSQL("select b.name, b.price, b.link, b.location, fr.restriction, b.points_value
 FROM bucket_list_item b, bucket_list_food f, food_restrictions fr
 WHERE b.bl_item_id = f.food_item_id
 AND fr.restriction_id = f.restrictions
@@ -245,7 +245,7 @@ ORDER BY ${sortBy}
     }} else
         {
         echo "<script>console.log('Show all.')</script>";
-        $result = executePlainSQL("select b.name, b.price, b.location, fr.restriction, b.points_value
+        $result = executePlainSQL("select b.name, b.price, b.link, b.location, fr.restriction, b.points_value
 FROM bucket_list_item b, bucket_list_food f, food_restrictions fr
 Where b.bl_item_id = f.food_item_id
 AND fr.restriction_id = f.restrictions

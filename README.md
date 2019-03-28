@@ -38,7 +38,6 @@ Pw: test
 
 ## DEV NOTES
 TODO:
-- fix division query
 - add cascade-on-delete query
 
 IF CONTINUING AFTER DEADLINE:

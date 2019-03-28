@@ -67,7 +67,7 @@
 
                     <div class="row">
                         <label for="username">Username</label>
-                        <input type="string" id="username" name="username" style="background-color: #D8D8D8; " required />
+                        <input type="string" id="username" name="username" style="background-color: #D8D8D8; " />
 
                     </div>
 
@@ -159,6 +159,7 @@ if (strcmp($type, 'Food') == 0) {
 } else if (strcmp($type, 'Activity') == 0) {
     $type = 2;
 }
+    
 
                 
 // Connect Oracle...
@@ -171,16 +172,21 @@ if ($db_conn) {
 $result = executePlainSQL("SELECT COUNT(1) FROM consumer, admin WHERE consumer_username='${username}' OR admin_username='${username}' 
 ");
 $row=OCI_Fetch_Array($result, OCI_BOTH); 
-    if($row[0] >= 1) {   
+    if($row[0] >= 1 || strcmp($username, '') == 0) {   
          $result = executePlainSQL("SELECT max(request_id) + 1
 FROM item_request_requests
 ");
         while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-        $newRID .= "" . $row[0] . "";
-    }
-
-         executePlainSQL("insert into item_request_requests values (${newRID}, null, ${type}, '${blname}', '${description}', '${theDate}', '${username}', 0)
+        $newRID .= "" . $row[0] . "";}
+        
+        if ($row[0] >= 1){
+        executePlainSQL("insert into item_request_requests values (${newRID}, null, ${type}, '${blname}', '${description}', '${theDate}', '${username}', 0)
         ");
+        } else {
+            
+             executePlainSQL("insert into item_request_requests values (${newRID}, null, ${type}, '${blname}', '${description}', '${theDate}', null, 0)
+        ");
+        }
         		OCICommit($db_conn);
 
 $result = executePlainSQL("SELECT r.request_id, r.consumer_username, r.requested_date, r.name, t.bl_type, r.description from item_request_requests r, bucket_list_type t

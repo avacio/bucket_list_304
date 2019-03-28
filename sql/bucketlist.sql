@@ -141,7 +141,7 @@ create table item_request_requests (
 	name varchar(50) not null,
 	description varchar(500) not null,
 	requested_date date not null,
-	consumer_username varchar(20) not null,
+	consumer_username varchar(20),
 	is_evaluated int default (0),
 	primary key (request_id),
     foreign key (bl_type_id) references bucket_list_type,
@@ -155,7 +155,7 @@ grant select on item_request_requests to public;
 
 create table creates_modifies_item (
 	bl_item_id int,
-	admin_username varchar(20) not null,
+	admin_username varchar(20),
 	request_id int,
 	created_modified_date date not null,
     primary key (bl_item_id, request_id),
@@ -170,8 +170,8 @@ grant select on creates_modifies_item to public;
 create table item_request_evaluates (
 	request_id int, 
 	evaluated_date date not null,
-	is_approved int not null,
-	admin_username varchar(20) not null,
+	is_approved int default(0),
+	admin_username varchar(20),
 	primary key (request_id),
     foreign key (is_approved) references evaluation (evaluated_id),
 	foreign key (request_id) references item_request_requests,
@@ -197,7 +197,7 @@ create table user_has_bucket_list (
 	list_id int,
 	percent_completed int default(0),
 	privacy_level int default(0),
-	consumer_username varchar(20) not null,
+	consumer_username varchar(20),
 	primary key (list_id),
     foreign key (consumer_username) references consumer
 );
@@ -804,6 +804,16 @@ values (4, 8);
 
 insert into bucket_list_contains
 values (4, 11);
+
+Insert into bucket_list_contains values(4, 4);
+Insert into bucket_list_contains values(4, 15);
+Insert into bucket_list_contains values(4, 16);
+Insert into bucket_list_contains values(4, 17);
+Insert into bucket_list_contains values(4, 18);
+Insert into bucket_list_contains values(4, 19);
+Insert into bucket_list_contains values(4, 10);
+Insert into bucket_list_contains values(4, 20);
+Insert into bucket_list_contains values(4, 27);
 
 insert into bucket_list_contains
 values (5, 5);

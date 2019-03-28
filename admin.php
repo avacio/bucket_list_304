@@ -89,8 +89,7 @@ $db_conn = OCILogon("ora_k7c1b", "a20470150",
         </section>
     </div>
 
-
-
+<br><br>
     <div class="viewlist" align='center'>
         <p>
             <!--

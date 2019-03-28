@@ -55,12 +55,20 @@
 			</div>
 		</section>
 
+<br><br>
+    <div class="viewlist" align='center'>
+        <p>
+            <a href="#featuredItems" class="btn button-sm orange hover-dark-orange soft-corners">Featured Items</a>
+            <a href="#featuredUsers" class="btn button-sm orange hover-dark-orange soft-corners">Featured Users</a>
+        </p>
+    </div>
 
+    
  <section class="box">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="text-white text-center fancy-heading">
+						<div class="text-white text-center fancy-heading" id="featuredItems">
 							<h1 class="font-700">Featured Items</h1>
               <hr class="text-white size-30 center-me">
 						</div>
@@ -150,7 +158,7 @@ from itemCount))
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="text-white text-center fancy-heading">
+						<div class="text-white text-center fancy-heading" id="featuredUsers">
 							<h1 class="font-700">Featured Users</h1>
               <hr class="text-white size-30 center-me">
 						</div>
@@ -163,17 +171,17 @@ from itemCount))
 						</div>
          <?php
     if ($db_conn) {
-$result = executePlainSQL("SELECT c.consumer_username
-FROM consumer c
-WHERE NOT EXISTS (
-	(SELECT blf.food_item_id
-	 FROM bucket_list_food blf)
-	EXCEPT
-	(SELECT blc.bl_item_id
-	 FROM bucket_list_contains blc, user_has_bucket_list uhbl,
-	 WHERE blc.list_id = uhbl.list_id AND uhbl.consumer_username = c.consumer_username
+$result = executePlainSQL("Select c.consumer_username
+From consumer c
+Where NOT EXISTS 
+(select * from 
+	Bucket_list_food f
+	Where NOT EXISTS 
+(select u.consumer_username
+		From bucket_list_contains bl, user_has_bucket_list u
+		Where bl.bl_item_id = f.food_item_id AND u.consumer_username = c.consumer_username AND u.list_id = bl.list_id))
 ");
-    printTable($result, $columnNames);
+    printTable($result, array("Username"));
 	OCILogoff($db_conn);
 } else {
 	echo "cannot connect";

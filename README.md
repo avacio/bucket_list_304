@@ -38,10 +38,6 @@ Pw: test
 
 ## DEV NOTES
 TODO:
-- food.php
-    - show all query bug with null restrictions
-- event.php, activity.php
-    - show all not showing all (as seen in explore)
 - fix division query
 - add cascade-on-delete query
 
@@ -54,6 +50,8 @@ IF CONTINUING AFTER DEADLINE:
     - hardcoded login details (not connected to database yet)
 - stub admin right now
     - control item requests
+- social aspect
+    - friends, and competing
 
 ICEBOX (extension ideas):
 - add picture links to bucketlist items

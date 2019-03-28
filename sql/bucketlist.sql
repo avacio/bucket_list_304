@@ -51,7 +51,7 @@ grant select on food_restrictions to public;
 
 create table bucket_list_food (
 	food_item_id int,
-	restrictions int,
+	restrictions int not null,
 	primary key (food_item_id),
     foreign key (restrictions) references food_restrictions (restriction_id),
     foreign key (food_item_id) references bucket_list_item (bl_item_id) on delete cascade
@@ -293,7 +293,16 @@ insert into bucket_list_item
 values (24, 'https://www.lightsouthk.com/', 'Lights // Out', 35, 'Get a sweat going while enjoying the night club atmosphere at this unique gym/nightclub!', 'Hong Kong China', 15);
 
 insert into bucket_list_item
-values (25, 'http://hkrunninggames.com/', 'HK Running Games', 65, 'Love game shows? Want to be in one? Then visit this unique cafe where you and your friends can compete in your very own game show! Based off of the popular Korean variety show, this experince features a variety of elaborate and hilarious activities to complete.', 'Hong Kong, China', 100);
+values (25, 'http://hkrunninggames.com/', 'HK Running Games', 65, 'Love game shows? Want to be in one? Then join the Running Games where you and your friends can compete in your very own game show! Based off of the popular Korean variety show, this experince features a variety of elaborate and hilarious activities to complete.', 'Hong Kong, China', 100);
+
+insert into bucket_list_item
+values (26, 'https://vancouversbestplaces.com/events-calendar/festivals-and-events/new-year-polar-bear-swims/', 'Polar Bear Swim', 0, 'A crazy annual tradition for many Vancouverites is taking a plunge in the icy waters of the ocean on New Year’s Day. Ring in the new year with a freezing, fresh, oceanic plunge!', 'English Bay, Vancouver, Canada', 250);
+
+insert into bucket_list_item
+values (27, 'http://ovaltine-cafe.com', 'Ovaltine Cafe', 15, 'Circa-1942 diner serving up all-day breakfast, burgers and sandwiches in a nostalgic atmosphere.', 'Vancouver, BC', 10);
+
+insert into bucket_list_item
+values (28, 'https://www.facebook.com/events/park-royal-west-vancouver-bc-v7t-canada/hike-rave-tonight/607052016336346/', 'Hike Rave', 5, 'The best night-hike of your life. A.k.a. the most Vancouver event ever.', 'Vancouver, BC',111);
 
 commit;
 
@@ -327,7 +336,7 @@ insert into bucket_list_food
 values (2, 0);
 
 insert into bucket_list_food
-values (3, null);
+values (3, 5);
 
 insert into bucket_list_food
 values (4, 5);
@@ -336,7 +345,22 @@ insert into bucket_list_food
 values (11, 5);
 
 insert into bucket_list_food
-values (15, null);
+values (16, 5);
+
+insert into bucket_list_food
+values (17, 5);
+
+insert into bucket_list_food
+values (18, 1);
+
+insert into bucket_list_food
+values (19, 5);
+
+insert into bucket_list_food
+values (20, 5);
+
+insert into bucket_list_food
+values (27, 5);
 
 commit;
 
@@ -355,6 +379,11 @@ values (10, TO_TIMESTAMP('2019-10-31 20:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP
 insert into bucket_list_event
 values (14, TO_TIMESTAMP('2019-07-13 08:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2019-07-13 10:00', 'YYYY-MM-DD HH24:MI'));
 
+insert into bucket_list_event
+values (26, TO_TIMESTAMP('2019-01-01 10:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2019-01-01 17:00', 'YYYY-MM-DD HH24:MI'));
+
+insert into bucket_list_event
+values (28, TO_TIMESTAMP('2018-08-17 18:30', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2018-08-17 22:00', 'YYYY-MM-DD HH24:MI'));
 
 commit;
 
@@ -378,6 +407,24 @@ values (12, TO_TIMESTAMP('2017-02-09 08:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP
 
 insert into bucket_list_activity
 values (13, TO_TIMESTAMP('2019-05-01 11:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2019-09-30 20:00', 'YYYY-MM-DD HH24:MI'), 'Fri, Sat, Sun');
+
+insert into bucket_list_activity
+values (15, TO_TIMESTAMP('2018-01-20 00:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2028-12-31 23:59', 'YYYY-MM-DD HH24:MI'), 'Mon, Tues, Wed, Thu, Fri, Sat, Sun');
+
+insert into bucket_list_activity
+values (21, TO_TIMESTAMP('2018-04-20 09:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2028-09-25 19:00', 'YYYY-MM-DD HH24:MI'), 'Mon, Tues, Wed, Thu, Fri, Sat, Sun');
+
+insert into bucket_list_activity
+values (22, TO_TIMESTAMP('2018-01-20 08:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2028-12-31 15:00', 'YYYY-MM-DD HH24:MI'), 'Mon, Tues, Wed, Fri, Sat, Sun');
+
+insert into bucket_list_activity
+values (23, TO_TIMESTAMP('2018-02-01 06:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2028-10-31 22:00', 'YYYY-MM-DD HH24:MI'), 'Mon, Tues, Wed, Thu, Fri, Sat, Sun');
+
+insert into bucket_list_activity
+values (24, TO_TIMESTAMP('2019-01-01 21:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2025-12-31 03:00', 'YYYY-MM-DD HH24:MI'), 'Thu, Fri, Sat, Sun');
+
+insert into bucket_list_activity
+values (25, TO_TIMESTAMP('2019-05-01 14:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2025-11-30 20:30', 'YYYY-MM-DD HH24:MI'), 'Tues, Wed, Thu, Fri, Sat');
 
 commit;
 

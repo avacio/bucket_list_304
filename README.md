@@ -17,26 +17,49 @@ When moving the project to the UGRAD servers you may have to change the permissi
 The following command is for using backspace as delete in SQL:
 `!stty erase ^H`
 
-The following command is to execute the init SQL when you are in the project directory:
+The following command is to execute the init SQL when you are in the project's sql directory:
 `start bucketlist`
+Views may need to be updated as well:
+`start views`
+`start recommended`
+
+
+## Login
+### User
+User: hauntingsjapan
+Pw: password
+
+### Admin
+User: test
+Pw: test
+
+** Both are hard-coded right now so these will remain the logins to the pages, even if their passwords are changed in the database.
+
 
 ## DEV NOTES
 TODO:
 - food.php
     - show all query bug with null restrictions
-- admin.php
-- user.php
+- event.php, activity.php
+    - show all not showing all (as seen in explore)
+- fix division query
+- add cascade-on-delete query
+
+IF CONTINUING AFTER DEADLINE:
+- request change to existing item
+- click to view more details about particular item? need to make a php page for this?
+- actually add items to bucketlists
+- list control
+- user.php, admin.php
     - hardcoded login details (not connected to database yet)
+- stub admin right now
+    - control item requests
 
 ICEBOX (extension ideas):
 - add picture links to bucketlist items
 - price range: enforce min < max
 - food: look into multiple select dietary restrictions, input type="checkbox" but would need to change database schema
 - same for activity: days of week scheduled
-- request change to existing item
-- click to view more details about particular item? need to make a php page for this?
-- actually add items to bucketlists
-- list control
 
     
 OTHER NOTES: 

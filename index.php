@@ -61,7 +61,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="text-white text-center fancy-heading">
-							<h1 class="font-700">Featured</h1>
+							<h1 class="font-700">Featured Items</h1>
               <hr class="text-white size-30 center-me">
 						</div>
 					</div>
@@ -132,7 +132,6 @@ where bli.bl_item_id = ubli.bl_item_id)
 
         <?php
     if ($db_conn) {
-//     echo "<br>Tried and tested:<br>";
 $result = executePlainSQL("select bli.name, bli.price, bli.description, bli.link, bli.location, bli.points_value
 from bucket_list_item bli
 where bli.bl_item_id IN 
@@ -144,7 +143,37 @@ having count(*) =
 from itemCount))
 ");
     printTable($result, $columnNames);
-
+    }
+    ?>
+    
+    <section class="box">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="text-white text-center fancy-heading">
+							<h1 class="font-700">Featured Users</h1>
+              <hr class="text-white size-30 center-me">
+						</div>
+					</div>
+				</div> 
+     </div></section>
+     <div class="text-yellow text-center fancy-heading">
+							<h3 class="font-600">The hungriest.</h3>
+                <p>Users that have listed all food items.</p>
+						</div>
+         <?php
+    if ($db_conn) {
+$result = executePlainSQL("SELECT c.consumer_username
+FROM consumer c
+WHERE NOT EXISTS (
+	(SELECT blf.food_item_id
+	 FROM bucket_list_food blf)
+	EXCEPT
+	(SELECT blc.bl_item_id
+	 FROM bucket_list_contains blc, user_has_bucket_list uhbl,
+	 WHERE blc.list_id = uhbl.list_id AND uhbl.consumer_username = c.consumer_username
+");
+    printTable($result, $columnNames);
 	OCILogoff($db_conn);
 } else {
 	echo "cannot connect";

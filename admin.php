@@ -1,291 +1,308 @@
 <html lang="en" class="no-js">
 
 <head>
-  <meta charset="UTF-8">
-  <title>BucketList</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>BucketList</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Font-->
-  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' >
+    <!-- Font-->
+    <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900'>
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-  <link rel="stylesheet" type="text/css" media="all" href="css/template.css" >
-  <link rel="stylesheet" type="text/css" media="all" href="css/magnific-popup.css" >
-  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
-
-
-<!-- Javscripts -->
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
-  <script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <script type="text/javascript" src="js/jquery.magnific-popup.js"></script>
-  <script type="text/javascript" src="js/scripts.js"></script>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" media="all" href="css/template.css">
+    <link rel="stylesheet" type="text/css" media="all" href="css/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
 
 
-  <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css"/>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
+    <!-- Javscripts -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery.magnific-popup.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+
+
+    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
 
 </head>
 
 
 <body>
 
-<!-- Top Header / Header Bar -->
-<div id="home" class="boxed-view">
-    <?php include("header.html");?>
+    <?php $userID = $_GET['user_username']; 
+    echo "<script>console.log( 'userID: ' + '${userID}')</script>";
+//        $searchName = "%${searchName}%";
+    ?>
 
-<section class="box">
-<div class="container">
+    <?php
+    require('parse-sql.php'); 
+$success = True;
+$db_conn = OCILogon("ora_k7c1b", "a20470150", 
+                    "dbhost.ugrad.cs.ubc.ca:1522/ug");
+    
+//    $result = executePlainSQL("select g.points - c.points
+//from goals g, consumerpoints c
+//");
+//    while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
+//        $pointsToGo .= "" . $row[0] . "";
+//    }
+    ?>
+
+    <!-- Top Header / Header Bar -->
+    <div id="home" class="boxed-view">
+        <?php include("header.html");?>
+        <section class="slider-box">
+            <div class="slider-mask"></div>
+            <div class="simple-slider">
+                <ul class="clean-list">
+                    <li><a href="#"><img src="images/header/1.jpg" /></a></li>
+                </ul>
+            </div>
+            <div class="container custom-controls">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="slider-helper">
+                            <ul class="clean-list">
+                                <li class="text-yellow text-center">
+                                    <h1 class="font-3x font-40">
+                                        <!--                                        <?php echo "@" . $userID . "<br>";?>-->
+                                        @test
+                                    </h1>
+                                    <p class="darken font-300 welcome-mess">
+                                        <!--                                        Let's try something new.--> <!--  Points Left To Reach Your Goal:
+                                        <?php echo "" . $pointsToGo . "<br>";?>--> 
+                                        ADMIN
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
 
 
-<div class="viewlist" align = 'center'>
-<p>
+    <div class="viewlist" align='center'>
+        <p>
+            <!--
     <button type ="button" onclick="toggleView('reserve')">Reservations</button>
     <button type ="button" onclick="toggleView('cust')">Customers</button>
     <button type ="button" onclick="toggleView('room')">Rooms</button>
 	<button type ="button" onclick="toggleView('hotel')">Hotel Information</button>
-	<button onClick="window.location='index.php'">Log Out</button>
-</p>
-</div>
+-->
+            <a href="#changePW" class="btn button-sm orange hover-dark-orange soft-corners">Change Password</a>
+            <button class="btn button-sm orange hover-dark-orange soft-corners" onClick="window.location='index.php'">Log Out</button>
+        </p>
+    </div>
 
-<?php
-$success = True; //keep track of errors so it redirects the page only if there are no errors
+    <?php 
+function printTable($resultFromSQL, $namesOfColumnsArray)
+{
+    echo "<table>";
+    echo "<tr>";
+    // iterate through the array and print the string contents
+    foreach ($namesOfColumnsArray as $name) {
+        echo "<th>$name</th>";
+    }
+    echo "</tr>";
 
-if (!$conn){
+    while ($row = OCI_Fetch_Array($resultFromSQL, OCI_BOTH)) {
+        echo "<tr>";
+        $string = "";
+
+        // iterates through the results returned from SQL query and
+        // creates the contents of the table
+        for ($i = 0; $i < sizeof($namesOfColumnsArray); $i++) {
+            $string .= "<td>" . $row["$i"] . "</td>";
+        }
+        echo $string;
+        echo "</tr>";
+    }
+    echo "</table>";
+}
+
+// Connect Oracle...
+if ($db_conn) {
+    echo "<script>console.log( 'Connected to Oracle.')</script>";
+    $columnNames = array("Name", "Price ($)", "Description", "Link", "Location", "Points");
+    
+    $userID = "test"; // TODO USER STUB
+}
+?>
+<!--
+    <br>
+    <div class="text-yellow text-center fancy-heading">
+        <h3 class="font-600">Recommended for You</h3>
+        <p>Top 5 items based on your history</p>
+    </div>
+-->
+    <?php
+if ($db_conn) {
+
+$result = executePlainSQL("select * from (select bli.name, bli.price, bli.description, bli.link, bli.location, bli.points_value from bucket_list_item bli 
+where rownum <= 5
+AND bli.bl_item_id NOT IN ((SELECT * FROM allFood af) UNION (SELECT * FROM allEvents ae) UNION (SELECT * FROM allActivities aa))
+ORDER BY dbms_random.value)
+");
+    
+//    printTable($result, $columnNames);
+}
+ ?>
+<!--
+    <br><br>
+
+    <div class="text-yellow text-center fancy-heading">
+        <h3 class="font-600">Birds of a Feather.</h3>
+        <p>Things your friends are into, but you're not (yet).</p>
+    </div>
+-->
+    <?php
+if ($db_conn) {
+
+$result = executePlainSQL("select bli.name, bli.price, bli.description, bli.link, bli.location, bli.points_value
+from bucket_list_item bli
+where bli.bl_item_id IN
+(select * 
+from japanFriends jf
+where NOT EXISTS (
+select *
+from japan j
+where jf.bl_item_id = j.bl_item_id))
+
+");
+    
+//    printTable($result, $columnNames);
+} ?>
+<!--
+    <br><br>
+    <div class="text-yellow text-center fancy-heading">
+        <h3 class="font-600">Mix it Up.</h3>
+        <p>These items are not in any of your lists.</p>
+    </div>
+-->
+
+    <?php
+    if ($db_conn) {
+$result = executePlainSQL("select bl.name, bl.price, bl.description, bl.link, bl.location, bl.points_value
+from bucket_list_item bl
+where bl.bl_item_id NOT IN 
+	(select c.bl_item_id 
+	from bucket_list_contains c
+	where c.list_id IN 
+		(select u.list_id
+		from user_has_bucket_list u
+		where u.consumer_username = 'hauntingsjapan'))
+");
+//    printTable($result, $columnNames);
+
+	OCILogoff($db_conn);
+} else {
 	echo "cannot connect";
 	$e = OCI_Error(); // For OCILogon errors pass no handle
 	echo htmlentities($e['message']);
 }
+?>
 
-function execute($query){
-	global $conn;
-	$stid = oci_parse($conn, $query);
-	if (!$stid) {
-		$e = oci_error($conn);
-		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    <script>
+        //  $(function(){
+        //    $('#employ1').dataTable({
+        //		order: []
+        //	});
+        //	$('#employ2').dataTable({
+        //		order: []
+        //	});
+        //	$('#employ3').dataTable({
+        //		order: [],
+        //		"columnDefs":[
+        //		{
+        //			"targets": [4],
+        //			"visible": false,
+        //			"searchable": false
+        //		}
+        //		]
+        //	});
+        //	$('#employ4').dataTable({
+        //		order: []	
+        //	});
+        //	
+        //	$('#employ5').dataTable({
+        //		order: []	
+        //	});
+        //  })
+
+        function toggleView(id) {
+            //		$('.alltable').hide();
+            $('#' + id).show();
+        }
+        $('.alltable').hide();
+        $('#reserve').show();
+        $('#resultbestcust').hide();
+
+
+        $('#importantcust').click(function() {
+            $('#resultbestcust').toggle();
+        })
+
+    </script>
+
+    <br><br>
+    <div class="text-yellow text-center fancy-heading" id="changePW">
+        <h3 class="font-600">Change Password</h3>
+        <!--                <p>These items are not in any of your lists.</p>-->
+        <form method="POST" action="user.php#changePW">
+            <label for="userpw">Old Password</label>
+
+            <p><input type="text" name="oldPW" size="8">
+                <label for="userpw">New Password</label>
+                <input type="text" name="newPW" size="8">
+                <input type="submit" value="Update" name="updateChangePW" btn button-sm orange hover-dark-orange soft-corners></p>
+        </form>
+    </div>
+
+    <?php
+    if ($db_conn) {
+
+	if (array_key_exists('updateChangePW', $_POST)) {
+		$result = executePlainSQL("Select consumer_password FROM consumer
+WHERE consumer_username = '${userID}'
+");
+        while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
+        $origPW .= "$row[0]";
+    }
+        $enteredOld = $_POST['oldPW'];
+        $enteredNew = $_POST['newPW'];
+        
+        if (strcmp($enteredOld, $origPW) == 0) {
+
+            if (strcmp($enteredNew, '') == 0) {                         echo "<br> Invalid new password.";
+ } else {
+            executePlainSQL("Update consumer set consumer_password = '${enteredNew}'
+WHERE consumer_username = '${userID}'
+");
+                        echo "<br> Password changed.";
+                    echo "<script>console.log( 'Password changed to: ' + '${enteredNew}')</script>";
+
+            }
+} else { 
+         echo "<br> Wrong password entered.";
+        }
+		OCICommit($db_conn);
+
 	}
-	$r = oci_execute($stid);
-	if (!$r) {
-		$e = oci_error($stid);
-		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	}
-		
-	while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-		print "<tr>\n";
-		foreach ($row as $item) {
-			print "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;") . "</td>\n";
-		}
-		print "</tr>\n";
-	}
-	print "</tbody>";
-	print "</table>\n";
-
-	oci_free_statement($stid);	
-}
-?>
-
-<div class = "alltable" id = "reserve">
-<?php
-
-if (array_key_exists('delete', $_POST)) {
-	$conf_no =  $_POST['deleteval'];
-	$query7 = "delete from reservation where conf_no= " . $conf_no;
-	$statement = oci_parse($conn, $query7);
-	$r = OCIExecute($statement);
-	if (!$r) {
-		  echo "<br>Cannot execute the following command<br>";
-		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
-		  echo htmlentities($e['message']);
-		  echo "<br>";
-		  $success = False;
-		}
-	oci_free_statement($statement);
-}
-
-if (array_key_exists('checkin', $_POST)) {
-	$conf_no =  $_POST['checkinval'];
-	$query8 = "update reservation set checkin_timestamp = systimestamp where conf_no= " . $conf_no;
-	$statement = oci_parse($conn, $query8);
-	$r = OCIExecute($statement);
-	if (!$r) {
-		  echo "<br>Cannot execute the following command<br>";
-		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
-		  echo htmlentities($e['message']);
-		  echo "<br>";
-		  $success = False;
-		}
-	oci_free_statement($statement);
-}
-
-if (array_key_exists('checkout', $_POST)) {
-	$conf_no =  $_POST['conf'];
-	$extra =  $_POST['extra'];
-	$damage =  $_POST['damage'];
-	
-	$query10 = "insert into checkout values(" . $conf_no . "," . $extra . ", systimestamp," . $damage . ")";
-	$statement = oci_parse($conn, $query10);
-	$r = OCIExecute($statement);
-	if (!$r) {
-		  echo "<br>Cannot execute the following command<br>";
-		  $e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
-		  echo htmlentities($e['message']);
-		  echo "<br>";
-		  $success = False;
-		}
-	oci_free_statement($statement);
-}
-
-if($conn){
-	print "<h3 align = 'center'>Reservations</h3>";
-	print "<table id = 'employ4' class = 'display' cellspacing ='0' >\n";
-	print "<thead>\n";
-	print "<tr>\n";
-	print "<th>Confirmation</th><th>Room No.</th><th>Card Name</th><th>Card Type</th><th>Card No.</th><th>Card Expiry</th><th>Date Booked</th><th>Time Checked In</th><th>Phone</th><th>Start Date</th><th>End Date</th><th>Type</th><th>Checkin</th><th>Delete</th>\n";
-	print "</tr>\n";
-	print "<tbody>";
-	global $conn;
-	$stid = oci_parse($conn, $query3);
-	if (!$stid) {
-		$e = oci_error($conn);
-		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	}
-	$r = oci_execute($stid);
-	if (!$r) {
-		$e = oci_error($stid);
-		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-	}
-		
-	while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-		print "<tr>\n";
-		foreach ($row as $item) {
-			print "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "&nbsp;") . "</td>\n";
-		}
-		print "<td><form action='employee.php' method='POST'><input type='hidden' name='checkinval' value='".$row["CONF_NO"]."'/><input type='submit' name='checkin' value='Checkin' /></form></td>\n";
-		print "<td><form action='employee.php' method='POST'><input type='hidden' name='deleteval' value='".$row["CONF_NO"]."'/><input type='submit' name='delete' value='Delete' /></form></td>\n";
-		print "</tr>\n";
-	}
-	print "</tbody>";
-	print "</table>\n";
-
-	oci_free_statement($stid);	
-}
-?>
-
-<form method="POST" action="admin.php">
-   <p><input type="text" placeholder="Confirmation No." name="conf"><input type="number" placeholder="Extra Costs" name="extra"><input type="number" placeholder="Damage Costs" name="damage">
-<input type="submit" value="Checkout" name="checkout"></p>
-</form>
-
-<?php
-	print "<br>";
-	print "<h3 align = 'center'>Checked Out Customers</h3>";
-	print "<table id = 'employ5' class = 'display' cellspacing ='0' >\n";
-	print "<thead>\n";
-	print "<tr>\n";
-	print "<th>Confirmation Number</th><th>Extra Cost</th><th>Checked Out</th><th>Damage Cost</th>\n";
-	print "</tr>\n";
-	print "<tbody>";
-	execute($query9);
-?>
-</div>
-
-
-<div class = "alltable" id = "cust">
-<?php
-
-if ($conn){
-	print "<h3 align = 'center'>Customers</h3>";
-	print "<table id = 'employ2' class = 'display' cellspacing ='0' >\n";
-	print "<thead>\n";
-	print "<tr>\n";
-	print "<th>Phone</th><th>Name</th><th>Age</th><th>Street</th><th>Zipcode</th><th>City</th><th>Province</th>\n";
-	print "</tr>\n";
-	print "<tbody>";
-	execute($query1);
-}
-?>
-<br>
-<button id = "importantcust" name = "importantcust" onClick = "showMaxMin('importantcust')">Show/Hide Important Customers</button>
-<br>Customers who are currently reserving all types of rooms (bedroom, conference room and ballroom)</br>
-
-<div id="resultbestcust"><b></b></div>
-
-</div>
-
-
-
-<div class = "alltable" id = "room">
-
-<?php
-	print "<h3 align = 'center'>Rooms</h3>";
-	print "<table id = 'employ3' class = 'display' cellspacing ='0' >\n";
-	print "<thead>\n";
-	print "<tr>\n";
-	print "<th>Room Number</th><th>Floor</th><th>Smoking</th><th>Pets</th><th>Availability</th><th>Capacity</th><th>Type</th><th>Class</th>\n";
-	print "</tr>\n";
-	print "<tbody>";
-	execute($query2);
-?>
-
-</div>
-
-
-
-<div class = "alltable" id = "hotel">
-
-<?php
-	print "<h3 align = 'center'>Hotel Information</h3>";
-	print "<table id = 'employ1' class = 'display' cellspacing ='0' >\n";
-	print "<thead>\n";
-	print "<tr>\n";
-	print "<th>Floor No.</th><th>Capacity</th><th># of Rooms</th>\n";
-	print "</tr>\n";
-	print "<tbody>";
-	execute($query4);
-?>
-
-
-
-Floor(s) with 
-
-<select name = "availrooms" onchange ="showMaxMin(this.value)">
-  <option class="placeholder" selected disabled value="">Select..</option>
-  <option value="max">Maximum</option>
-  <option value="min">Minimum</option>
-</select>
-available capacity:
-
-
-<br>
-<div id="resultavail"><b></b></div>
-
-</div>
-
-<?php
-
-if($conn){
-	OCILogoff($conn);
-}
-?>
-
-<style>
-select > .placeholder {
-  display: none;
-}
-
-</style>
-
-</div>
-
-
-<?php include("footer.html");?>
+    	OCILogoff($db_conn);
+    }
+    ?>
+    <?php include("footer.html");?>
 
 </body>
+
 </html>

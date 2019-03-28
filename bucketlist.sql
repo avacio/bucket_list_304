@@ -265,6 +265,36 @@ values (14, 'http://www.mouhoutours.com/morocco-sandboarding-merzouga-experience
 insert into bucket_list_item
 values (15, 'https://www.valcartier.com/en/accommodations/ice-hotel/?langue=fr', 'Hotel de Glace', 350, 'Visit North America''s only ice hotel. Made entirely of snow and ice it''s the coolest way to spend the night!', 'Quebec, Canada', 50);
 
+insert into bucket_list_item
+values (16, 'http://villaescudero.com/amenities-activities/', 'The Labassin Waterfall Restaurant', 30, 'Dine at the foot of a waterfall at this exotic restaurant.', 'Phillipines', 50);
+
+insert into bucket_list_item
+values (17, 'https://shinjuku-robot.com/sp/', 'Robot Restaurant', 50, 'Do you prefer being with robots over people? Want an out of this world futristic experience? Then visit this colorful and crazy robot restaurant featuring robot  a robot show while you dine!', 'Shinjuku, Japan', 50);
+
+insert into bucket_list_item
+values (18, 'http://www.cerealkillercafe.co.uk/', 'Cereal Killer Cafe', 12, 'Are you a cereal killer? Do you constantly need a cereal fix? Then visit this cafe that offers cereals from all over the world along with 30 different types of milk.', 'London, UK', 50);
+
+insert into bucket_list_item
+values (19, 'http://moderntoilet.com.tw/', 'Modern Toilet Restaurant', 30, 'If you''re feeling adventurous and known for your iron stomach, then try you must go to this toilet themed restaurant in Taiwan! Everything is served in minature toilet themed dishes and arranged to fit the theme.', 'Taiwan', 100);
+
+insert into bucket_list_item
+values (20, 'https://kawaiimonster.jp/', 'Kawaii Monster Cafe', 40, 'Described as ''Alice in Wonderland meets Wonka on acid'', this Harajuku cafe highlights the colorful and crazy town that it''s located in. Visit in the day and night for two unique experiences you won''t forget.', 'Harajuku, Japan', 100);
+
+insert into bucket_list_item
+values (21, 'https://discoveryourindonesia.com/timang-beach/', 'Timang Beach Gondola', 19, 'If you want a thrill ride of a lifetime then nothing is more fitting than the gondola at Timang Beach. This hand pulled wooden gondola is nothing more than a chair and a system of pulleys strung across the ocean to link the main island to a rocky outcrop island used by fisherman.', 'Indonesia', 1000);
+
+insert into bucket_list_item
+values (22, 'https://www.bungy.co.nz/queenstown/nevis/nevis-swing/', 'Nevis Swing', 200, 'Take swinging to a whole new extreme with this swing designed to go over a river valley in a 300m arc!', 'Queenstown, New Zealand', 1000);
+
+insert into bucket_list_item
+values (23, 'https://daiba.ooedoonsen.jp/en/', 'Odaiba Onsen', 33, 'Melt your stress away in the various natural hot springs in one of Japan''s largest onsen theme parks!', 'Odaiba, Japan', 15);
+
+insert into bucket_list_item
+values (24, 'https://www.lightsouthk.com/', 'Lights // Out', 35, 'Get a sweat going while enjoying the night club atmosphere at this unique gym/nightclub!', 'Hong Kong China', 15);
+
+insert into bucket_list_item
+values (25, 'http://hkrunninggames.com/', 'HK Running Games', 65, 'Love game shows? Want to be in one? Then visit this unique cafe where you and your friends can compete in your very own game show! Based off of the popular Korean variety show, this experince features a variety of elaborate and hilarious activities to complete.', 'Hong Kong, China', 100);
+
 commit;
 
 
@@ -306,7 +336,7 @@ insert into bucket_list_food
 values (11, 5);
 
 insert into bucket_list_food
-values (15, null)
+values (15, null);
 
 commit;
 
@@ -391,6 +421,21 @@ values ('matthew.liao437', 'liao39?8', 'Matthew Liao', 15, 'matt.l@alumni.ubc.ca
 
 insert into consumer
 values ('widjaja', 'widjajajo890%', 'Johnson Widjaja', 500, 'widjaja.john@hotmail.com', '7789452034');
+
+insert into consumer
+values ('thrillingadventures', 'thrillseeker2000', 'John Doe', 100, 'john.doe@hotmail.com', '2507830991');
+
+insert into consumer
+values ('scaredycat100', 'ithinkineedtums', 'Jane Doe', 50, 'scaredy.deer@gmail.com', null);
+
+insert into consumer
+values ('surferbabe200', 'tula.44$89', 'Tula Smith', 90, 'tula.k.smith321@gmail.ca', '7789082686');
+
+insert into consumer
+values ('helloworld', 'hello4903', 'Simon Sayes', 150, 'hello.world4895@hotmail.com', null);
+
+insert into consumer
+values ('melodypond409', 'doctors.wife273', 'River Song', 315, 'archaeologists.rule1009x@gmail.com', '84736193758');
 
 commit;
 
@@ -660,6 +705,21 @@ values (4, 15, 1, 'matthew.liao437');
 insert into user_has_bucket_list
 values (5, 10, 1, 'widjaja');
 
+insert into user_has_bucket_list
+values (6, 90, 1, 'thrillingadventures');
+
+insert into user_has_bucket_list
+values (7, 75, 1, 'scaredycat100');
+
+insert into user_has_bucket_list
+values (8, 0, 1, 'surferbabe200');
+
+insert into user_has_bucket_list
+values (9, 50, 1, 'helloworld');
+
+insert into user_has_bucket_list
+values (10, 15, 1, 'melodypond409');
+
 commit;
 
 
@@ -715,5 +775,86 @@ values (5, 13);
 
 insert into bucket_list_contains
 values (5, 14);
+
+insert into bucket_list_contains
+values (6, 14);
+
+insert into bucket_list_contains
+values (6, 8);
+
+insert into bucket_list_contains
+values (6, 6);
+
+insert into bucket_list_contains
+values (6, 11);
+
+insert into bucket_list_contains
+values (6, 20);
+
+insert into bucket_list_contains
+values (6, 12);
+
+insert into bucket_list_contains
+values (7, 8);
+
+insert into bucket_list_contains
+values (7, 5);
+
+insert into bucket_list_contains
+values (7, 6);
+
+insert into bucket_list_contains
+values (7, 12);
+
+insert into bucket_list_contains
+values (7, 16);
+
+insert into bucket_list_contains
+values (8, 8);
+
+insert into bucket_list_contains
+values (8, 6);
+
+insert into bucket_list_contains
+values (8, 18);
+
+insert into bucket_list_contains
+values (8, 20);
+
+insert into bucket_list_contains
+values (8, 11);
+
+insert into bucket_list_contains
+values (9, 8);
+
+insert into bucket_list_contains
+values (9, 5);
+
+insert into bucket_list_contains
+values (9, 18);
+
+insert into bucket_list_contains
+values (9, 23);
+
+insert into bucket_list_contains
+values (9, 20);
+
+insert into bucket_list_contains
+values (10, 8);
+
+insert into bucket_list_contains
+values (10, 18);
+
+insert into bucket_list_contains
+values (10, 14);
+
+insert into bucket_list_contains
+values (10, 13);
+
+insert into bucket_list_contains
+values (10, 5);
+
+insert into bucket_list_contains
+values (10, 7);
 
 commit;

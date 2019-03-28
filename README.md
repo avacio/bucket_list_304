@@ -22,19 +22,21 @@ The following command is to execute the init SQL when you are in the project dir
 
 ## DEV NOTES
 TODO:
-- index.php
-    - "recommended" section, for logged in users? or just put in the user page?
+- food.php
+    - show all query bug with null restrictions
 - admin.php
 - user.php
     - hardcoded login details (not connected to database yet)
-- request.php (not yet created)
-- click to view more details about particular item? need to make a php page for this?
 
-ICEBOX:
+ICEBOX (extension ideas):
 - add picture links to bucketlist items
 - price range: enforce min < max
 - food: look into multiple select dietary restrictions, input type="checkbox" but would need to change database schema
 - same for activity: days of week scheduled
+- request change to existing item
+- click to view more details about particular item? need to make a php page for this?
+- actually add items to bucketlists
+- list control
 
     
 OTHER NOTES: 

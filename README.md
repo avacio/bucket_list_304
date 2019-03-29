@@ -3,6 +3,14 @@
 LIVE LINK:
 [http://www.ugrad.cs.ubc.ca/~k7c1b/bucketlist]
 
+## Background
+Wake up. Drink coffee. Go to the library. Eat a bowl of cup noodles. Sleep. Repeat.
+In 2019, it is all too easy to fall into a routine — it’s necessary even, in order to survive the daily grind. We fall into the same old comfortable habits, although there are always things that each of us want to try before dying.
+
+With *Bucket List*, we aim to present unique experiences from all over the world! It may recommend everything from curious food items (e.g. cheese bubble tea), to events that you never knew existed, but now know you needed (e.g. rave hiking). The goal of the project is to help users try new things, as it is when we are out of our comfort zones, that we truly learn the most.
+
+Are you ready for an adventure?
+
 ## Setup
 ### In php local servers
 To test the site locally, PHP local servers are a good option.
@@ -22,12 +30,12 @@ The following command is to execute the init SQL when you are in the project's s
 
 ## Login
 ### User
->User: hauntingsjapan
->Pw: password
+>User: hauntingsjapan  
+>Password: password
 
 ### Admin
->User: test
->Pw: test
+>User: test  
+>Password: test
 
 Both are hard-coded right now so these will remain the logins to the pages, even if their passwords are changed in the database.
 (Hard-coded in scripts.js)

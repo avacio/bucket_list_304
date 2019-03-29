@@ -935,3 +935,21 @@ tr.shown td.details-control {
   -ms-transition:     all 0.3s ease;
   transition:         all 0.3s ease;
 }
+
+.logo-title:hover .logo-hover {
+        display: inline;
+}
+.logo-title:hover .logo-orig {
+        display: none;
+}
+
+.logo-orig {
+        width: 10%;
+        height: 10%;
+        display: inline;
+}
+.logo-hover {
+        width: 10%;
+        height: 10%;
+        display: none;
+}

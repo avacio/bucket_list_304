@@ -270,12 +270,19 @@ where bl.bl_item_id NOT IN
 if (array_key_exists('deleteItemID', $_POST)) {
     $deleteID = $_POST['deleteID'];
     
+    $result = executePlainSQL("SELECT COUNT(1) FROM bucket_list_item WHERE bl_item_id=${deleteID}");
+$row=OCI_Fetch_Array($result, OCI_BOTH); 
+    if($row[0] >= 1) {
     executePlainSQL("Delete from bucket_list_item
 Where bl_item_id = ${deleteID}
 ");
-    echo "<br> Item deleted: ID#${deleteID}";
+    echo "<br> Item deleted: ID# ${deleteID}";
     		OCICommit($db_conn);
 
+} else {
+            echo "<br> Item ID# ${deleteID} does not exist.";
+
+    }
 }}
         ?>
     

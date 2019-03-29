@@ -171,15 +171,15 @@ if ($db_conn) {
 
 $result = executePlainSQL("SELECT COUNT(1) FROM consumer, admin WHERE consumer_username='${username}' OR admin_username='${username}' 
 ");
-$row=OCI_Fetch_Array($result, OCI_BOTH); 
-    if($row[0] >= 1 || strcmp($username, '') == 0) {   
+$u=OCI_Fetch_Array($result, OCI_BOTH); 
+    if($u[0] >= 1 || strcmp($username, '') == 0) {   
          $result = executePlainSQL("SELECT max(request_id) + 1
 FROM item_request_requests
 ");
         while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
         $newRID .= "" . $row[0] . "";}
         
-        if ($row[0] >= 1){
+        if ($u[0] >= 1){
         executePlainSQL("insert into item_request_requests values (${newRID}, null, ${type}, '${blname}', '${description}', '${theDate}', '${username}', 0)
         ");
         } else {

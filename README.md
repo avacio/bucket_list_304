@@ -37,8 +37,6 @@ Pw: test
 
 
 ## DEV NOTES
-TODO:
-- add cascade-on-delete query
 
 IF CONTINUING AFTER DEADLINE:
 - request change to existing item

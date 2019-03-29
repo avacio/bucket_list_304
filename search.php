@@ -96,18 +96,30 @@ function printTable($resultFromSQL, $namesOfColumnsArray)
 if ($db_conn) {
     echo "<script>console.log( 'Connected to Oracle.')</script>";
     $columnNames = array("Name", "Price ($)", "Description", "Link", "Location", "Points");
-    $searchName = "%${searchName}%";
 
+    if (ctype_digit($searchName)) {
 // sorts matches by popularity
 $result = executePlainSQL("select b.name, b.price, b.description, b.link, b.location, b.points_value 
 FROM bucket_list_item b LEFT OUTER JOIN itemCount i
 ON b.bl_item_id = i.bl_item_id
-WHERE b.name LIKE '${searchName}'
-OR b.location LIKE '${searchName}'
-OR b.description LIKE '${searchName}'
-OR b.link LIKE '${searchName}'
+WHERE b.name LIKE '%${searchName}%'
+OR b.location LIKE '%${searchName}%'
+OR b.description LIKE '%${searchName}%'
+OR b.link LIKE '%${searchName}%'
+OR b.bl_item_id = ${searchName}
 order by i.items DESC NULLS LAST
 ");
+    } else {
+        $result = executePlainSQL("select b.name, b.price, b.description, b.link, b.location, b.points_value 
+FROM bucket_list_item b LEFT OUTER JOIN itemCount i
+ON b.bl_item_id = i.bl_item_id
+WHERE b.name LIKE '%${searchName}%'
+OR b.location LIKE '%${searchName}%'
+OR b.description LIKE '%${searchName}%'
+OR b.link LIKE '%${searchName}%'
+order by i.items DESC NULLS LAST
+");
+    }
     
     printTable($result, $columnNames);
 

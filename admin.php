@@ -76,8 +76,9 @@ $db_conn = OCILogon("ora_k7c1b", "a20470150",
                                         @test
                                     </h1>
                                     <p class="darken font-300 welcome-mess">
-                                        <!--                                        Let's try something new.--> <!--  Points Left To Reach Your Goal:
-                                        <?php echo "" . $pointsToGo . "<br>";?>--> 
+                                        <!--                                        Let's try something new.-->
+                                        <!--  Points Left To Reach Your Goal:
+                                        <?php echo "" . $pointsToGo . "<br>";?>-->
                                         ADMIN
                                     </p>
                                 </li>
@@ -89,7 +90,7 @@ $db_conn = OCILogon("ora_k7c1b", "a20470150",
         </section>
     </div>
 
-<br><br>
+    <br><br>
     <div class="viewlist" align='center'>
         <p>
             <!--
@@ -98,6 +99,7 @@ $db_conn = OCILogon("ora_k7c1b", "a20470150",
     <button type ="button" onclick="toggleView('room')">Rooms</button>
 	<button type ="button" onclick="toggleView('hotel')">Hotel Information</button>
 -->
+            <a href="#deleteItem" class="btn button-sm orange hover-dark-orange soft-corners">Delete Item</a>
             <a href="#changePW" class="btn button-sm orange hover-dark-orange soft-corners">Change Password</a>
             <button class="btn button-sm orange hover-dark-orange soft-corners" onClick="window.location='index.php'">Log Out</button>
         </p>
@@ -137,7 +139,7 @@ if ($db_conn) {
     $userID = "test"; // TODO USER STUB
 }
 ?>
-<!--
+    <!--
     <br>
     <div class="text-yellow text-center fancy-heading">
         <h3 class="font-600">Recommended for You</h3>
@@ -156,7 +158,7 @@ ORDER BY dbms_random.value)
 //    printTable($result, $columnNames);
 }
  ?>
-<!--
+    <!--
     <br><br>
 
     <div class="text-yellow text-center fancy-heading">
@@ -181,7 +183,7 @@ where jf.bl_item_id = j.bl_item_id))
     
 //    printTable($result, $columnNames);
 } ?>
-<!--
+    <!--
     <br><br>
     <div class="text-yellow text-center fancy-heading">
         <h3 class="font-600">Mix it Up.</h3>
@@ -252,12 +254,36 @@ where bl.bl_item_id NOT IN
         })
 
     </script>
-
     <br><br>
+    <div class="text-yellow text-center fancy-heading" id="deleteItem">
+        <h3 class="font-600">Delete Item</h3>
+        <p>Caution: You cannot undo after deleting.</p>
+        <form method="POST" action="admin.php#deleteItem">
+            <label for="deleteID">Item ID# to be Deleted</label>
+            <input type="text" name="deleteID" size="8">
+            <input type="submit" value="Delete" name="deleteItemID" btn button-sm orange hover-dark-orange soft-corners></p>
+        </form>
+    </div>
+
+    <?php
+    if ($db_conn) {
+if (array_key_exists('deleteItemID', $_POST)) {
+    $deleteID = $_POST['deleteID'];
+    
+    executePlainSQL("Delete from bucket_list_item
+Where bl_item_id = ${deleteID}
+");
+    echo "<br> Item deleted: ID#${deleteID}";
+    		OCICommit($db_conn);
+
+}}
+        ?>
+    
+        <br><br>
     <div class="text-yellow text-center fancy-heading" id="changePW">
         <h3 class="font-600">Change Password</h3>
         <!--                <p>These items are not in any of your lists.</p>-->
-        <form method="POST" action="user.php#changePW">
+        <form method="POST" action="admin.php#changePW">
             <label for="userpw">Old Password</label>
 
             <p><input type="text" name="oldPW" size="8">
@@ -269,10 +295,9 @@ where bl.bl_item_id NOT IN
 
     <?php
     if ($db_conn) {
-
 	if (array_key_exists('updateChangePW', $_POST)) {
-		$result = executePlainSQL("Select consumer_password FROM consumer
-WHERE consumer_username = '${userID}'
+		$result = executePlainSQL("Select admin_password FROM admin
+WHERE admin_username = '${userID}'
 ");
         while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
         $origPW .= "$row[0]";
@@ -284,8 +309,8 @@ WHERE consumer_username = '${userID}'
 
             if (strcmp($enteredNew, '') == 0) {                         echo "<br> Invalid new password.";
  } else {
-            executePlainSQL("Update consumer set consumer_password = '${enteredNew}'
-WHERE consumer_username = '${userID}'
+            executePlainSQL("Update admin set admin_password = '${enteredNew}'
+WHERE admin_username = '${userID}'
 ");
                         echo "<br> Password changed.";
                     echo "<script>console.log( 'Password changed to: ' + '${enteredNew}')</script>";

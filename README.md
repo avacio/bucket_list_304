@@ -3,6 +3,14 @@
 LIVE LINK:
 [https://www.students.cs.ubc.ca/~avacio/bucketlist/]
 
+**UBC SQL server may not be initialized.
+
+![Imgur](https://i.imgur.com/yL7xfFC.png)<br/>
+![Imgur](https://i.imgur.com/RlruT0A.png)<br/>
+![Imgur](https://i.imgur.com/mwLN9jH.png)<br/>
+![Imgur](https://i.imgur.com/GGC2t2Y.png)<br/>
+
+
 ## Background
 Wake up. Drink coffee. Go to the library. Eat a bowl of cup noodles. Sleep. Repeat.
 In 2019, it is all too easy to fall into a routine — it’s necessary even, in order to survive the daily grind. We fall into the same old comfortable habits, although there are always things that each of us want to try before dying.

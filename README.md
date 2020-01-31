@@ -1,7 +1,7 @@
 # bucket_list_304
 
 LIVE LINK:
-[http://www.ugrad.cs.ubc.ca/~k7c1b/bucketlist]
+[https://www.students.cs.ubc.ca/~avacio/bucketlist/]
 
 ## Background
 Wake up. Drink coffee. Go to the library. Eat a bowl of cup noodles. Sleep. Repeat.
